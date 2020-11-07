@@ -15,18 +15,16 @@ using namespace std;
 class Graph
 {
 private:
-    // the head pointer for the linked list of the vertics
-    Vertex* m_pVHead;
-    // the number of the vertics
-    int m_vSize;
+    Vertex* m_pVHead;// the head pointer for the linked list of the vertics
+    int m_vSize;// the number of the vertics
 
 public:
-	/// constructor
-	Graph();
-	/// destructor
-	~Graph();
+	Graph();/// constructor  
+	~Graph();/// destructor
 
-
+    void SetSize(int size) {
+        this->m_vSize = size;
+    }
     /// add vertex with vertexNum at the end of the linked list for the vertics
     void AddVertex(int vertexKey);
 
@@ -34,13 +32,25 @@ public:
     void AddEdge(int startVertexKey, int endVertexKey, int weight);
 
     /// get the vertex which the key is vertexNum
-    Vertex* FindVertex(int key);
+    Vertex* FindVertex(int key) {
+        Vertex* pCur = m_pVHead;
+        while (pCur != NULL)
+        {
+            if (pCur->GetKey() == key)
+                return pCur;
+            pCur = pCur->GetNext();
+        }
+    }
 
     /// get the number of the vertics
-    int Size() const;
+    int Size() const {
+        return m_vSize;
+    }
 
     /// memory free for the vertics
-    void Clear();
+    void Clear() {
+
+    }
 
     /// print out the graph as matrix form
     void Print(std::ofstream& fout);

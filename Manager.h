@@ -25,6 +25,7 @@ public:
     ~Manager();
     void Run(const char* filepath);
     void PrintError(Result result);
+    void PrintErrorName(char* command, string name);
 
 private:
     Result Load(const char* filepath);
@@ -34,7 +35,7 @@ private:
     Result FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int endVertexKey);
     Result FindShortestPathBellmanFord(int startVertexKey, int endVertexKey);
     Result FindShortestPathFloyd();
-    Result RabinKarpCompare(const char* CompareString)
+    Result RabinKarpCompare(const char* CompareString);
 };
 
 #endif

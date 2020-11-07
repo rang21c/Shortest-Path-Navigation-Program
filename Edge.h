@@ -8,31 +8,39 @@
 class Edge
 {
 private:
-    // the key of this edge
-    int m_key;
-    // the weight of this edge
-    int m_weight;
-    // the next pointer for the linked list of the edges
-    Edge* m_pNext;
+    int m_key;//the key of this edge  
+    int m_weight;//the weight of this edge
+    Edge* m_pNext;//the next pointer for the linked list of the edges
 
 public:
 	/// constructor
-    Edge();
-
+    Edge() {
+        m_key = 0;
+        m_weight = 0;
+        m_pNext = NULL;
+    }
 	/// copy constructor
-    Edge(int key, int weight);
-
+    Edge(int key, int weight) {
+        this->m_key = key;
+        this->m_weight = weight;
+        m_pNext = NULL;
+    }
     /// set the next pointer of this edge
-    void SetNext(Edge* pNext);
-
+    void SetNext(Edge* pNext) {
+        this->m_pNext = pNext;
+    }
     /// get the key of this edge
-    int GetKey() const;
-
+    int GetKey() const {
+        return m_key;
+    }
     /// get the weight of this edge
-    int GetWeight() const;
-
+    int GetWeight() const {
+        return m_weight;
+    }
     /// get the next pointer of this edge
-    Edge* GetNext() const;
+    Edge* GetNext() const {
+        return m_pNext;
+    }
 };
 
 #endif
