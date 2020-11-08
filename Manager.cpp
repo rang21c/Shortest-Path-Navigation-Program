@@ -51,7 +51,16 @@ void Manager::Run(const char* filepath)//filepath is command.txt
         }
         else if (strcmp(tmp, "UPDATE") == 0)
         {
-            
+            if (Update() == FaildtoUpdatePath)
+            {
+                PrintErrorName(tmp, "FaildtoUpdatePath");
+                PrintError(FaildtoUpdatePath);
+            }
+            else
+            {//UPDATE is successful.
+                PrintErrorName(tmp, "Success");
+                PrintError(Success);
+            }
         }
         else if (strcmp(tmp, "PRINT") == 0)
         {
@@ -78,10 +87,10 @@ void Manager::PrintError(Result result)//Error code print
 }
 void Manager::PrintErrorName(char* command, string name)//Error code print
 {
-    fout << "======" << command << "======" << endl;
+    fout << "====== " << command << " ======" << endl;
     fout << name << endl;
     fout << "====================" << endl << endl;
-    cout << "======" << command << "======" << endl;
+    cout << "====== " << command << " ======" << endl;
     cout << name << endl;
     cout << "====================" << endl << endl;
 }
@@ -102,15 +111,16 @@ Result Manager::Load(const char* filepath)
     while (!map.eof())
     {
         getline(map, temp);//read line
-        char* StoreName = strtok((char*)temp.c_str(), " ");
-        if (StoreName == NULL) break;
-        m_graph.AddVertex(VertexCount);
+        if (temp == "") break;
+        string StoreName = strtok((char*)temp.c_str(), " ");
+        //m_graph.AddVertex(VertexCount);
         while (1)
         {
-            char* name1 = strtok(NULL, " ");
-            if (name1 == NULL || strcmp(name1,"/") == 0) break;
-            //StoreName = StoreName + " " + name1;
+            string name1 = strtok(NULL, " ");
+            if (name1 == "" || strcmp((char*)name1.c_str(),"/") == 0) break;
+            StoreName = StoreName + " " + name1;
         }
+        m_graph.AddVertex(VertexCount, (char*)StoreName.c_str());
         for (int i = 0; i < m_graph.Size(); i++)
         {
             char* weight = strtok(NULL, " ");
@@ -122,20 +132,40 @@ Result Manager::Load(const char* filepath)
     }
     return Success;
 }
+Result Manager::Update()
+{
+    if (m_graph.Size() == 0)
+        return FaildtoUpdatePath;
+    Vertex* moveV = m_graph.GetHead();
+    char* temp1;
+    char* temp2;
+    for (int i = 0; i < m_graph.Size(); i++)
+    {
+        Edge* moveE = moveV->GetHeadOfEdge();
+        for (int j = 0; j < m_graph.FindVertex(moveV->GetKey())->Size(); j++)
+        {
+            temp1 = moveV->GetName();
+            char* people1 = strtok(temp1, "'");
+            temp2 = m_graph.FindVertex(moveE->GetKey())->GetName();
+            char* people2 = strtok(temp2, "'");
+            //RabinKarpCompare();
+            char* trash1 = strtok(temp1, " ");
+            char* trash2 = strtok(temp2, " ");
+            moveE = moveE->GetNext();//Edge move
+        }
+        moveV = moveV->GetNext();//Vertex move
+    }
+    return Success;
+}
 /// <summary>
 /// print out the graph as matrix form
 /// </summary>
-///
-/// <returns>
-/// Result::Success if the printing is successful
-/// Result::GraphNotExist if there is no graph
-/// </returns>
 Result Manager::Print()
 {
     if (m_graph.Size() == 0)
-        return GraphNotExist;
+        return GraphNotExist;//GraphNotExist if there is no graph
     m_graph.Print(fout);
-    return Success;
+    return Success;//Success if the printing is successful
 }
 /// <summary>
 /// find the path from startVertexKey to endVertexKey with DFS (stack)
@@ -218,8 +248,13 @@ Result Manager::FindShortestPathBellmanFord(int startVertexKey, int endVertexKey
     return Success;
 }
 
+Result Manager::FindShortestPathFloyd()
+{
+    return Success;
+}
+
 Result Manager::RabinKarpCompare(const char* CompareString)
 {
-    // TODO: implement
+
     return Success;
 }

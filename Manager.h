@@ -29,6 +29,7 @@ public:
 
 private:
     Result Load(const char* filepath);
+    Result Update();
     Result Print();
     Result FindPathDfs(int startVertexKey, int endVertexKey);
     Result FindShortestPathDijkstraUsingSet(int startVertexKey, int endVertexKey);

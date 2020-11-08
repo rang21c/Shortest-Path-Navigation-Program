@@ -22,17 +22,15 @@ public:
 	Graph();/// constructor  
 	~Graph();/// destructor
 
-    void SetSize(int size) {
-        this->m_vSize = size;
-    }
+    Vertex* GetHead() { return m_pVHead; }
+    void SetSize(int size) { this->m_vSize = size; }
     /// add vertex with vertexNum at the end of the linked list for the vertics
-    void AddVertex(int vertexKey);
-
+    void AddVertex(int vertexKey, char* storeName);
     /// add edge from the vertex which the number is startVertexKey to the vertex which the number is endVertexKey
     void AddEdge(int startVertexKey, int endVertexKey, int weight);
-
     /// get the vertex which the key is vertexNum
-    Vertex* FindVertex(int key) {
+    Vertex* FindVertex(int key) 
+    {
         Vertex* pCur = m_pVHead;
         while (pCur != NULL)
         {
@@ -41,23 +39,18 @@ public:
             pCur = pCur->GetNext();
         }
     }
-
     /// get the number of the vertics
-    int Size() const {
-        return m_vSize;
-    }
-
+    int Size() const { return m_vSize; }
     /// memory free for the vertics
-    void Clear() {
-
+    void Clear() 
+    { 
+        delete m_pVHead;
+        m_vSize = 0;
     }
-
     /// print out the graph as matrix form
     void Print(std::ofstream& fout);
-
     /// check whether the graph has negative edge or not.
     bool IsNegativeEdge();
-
     /// find the path from startVertexKey to endVertexKey with DFS (stack)
 	std::vector<int> FindPathDfs(int startVertexKey, int endVertexKey);
 

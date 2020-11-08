@@ -12,12 +12,11 @@ Graph::Graph()
 }
 Graph::~Graph()
 {
-    m_pVHead = NULL;// the head pointer for the linked list of the vertics
-    m_vSize = 0;// the number of the vertics
+    Clear();
 }
-void Graph::AddVertex(int vertexKey)
+void Graph::AddVertex(int vertexKey, char* storeName)
 {
-    Vertex* NewVertex = new Vertex(vertexKey);
+    Vertex* NewVertex = new Vertex(vertexKey, storeName);
     if (m_pVHead == NULL)
     {//first insert
         m_pVHead = NewVertex;
@@ -33,6 +32,7 @@ void Graph::AddVertex(int vertexKey)
 void Graph::AddEdge(int startVertexKey, int endVertexKey, int weight)
 {
     Vertex* v = FindVertex(startVertexKey);
+    v->SetSize(v->Size() + 1);
     v->AddEdge(endVertexKey, weight);
 }
 
@@ -64,4 +64,26 @@ void Graph::Print(std::ofstream& fout)
     }
     fout << "====================" << endl << endl;
     cout << "====================" << endl << endl;
+}
+
+bool Graph::IsNegativeEdge()
+{
+    Vertex* moveV = m_pVHead;
+    if (moveV == NULL)
+        return false;
+    else
+    {
+        while (moveV)
+        {
+            Edge* moveE = moveV->GetHeadOfEdge();
+            while (moveE)
+            {
+                if (moveE->GetWeight() < 0)
+                    return true;
+                moveE = moveE->GetNext();//Edge move
+            }
+            moveV = moveV->GetNext();//Vertex move
+        }
+    }
+    return false;
 }
