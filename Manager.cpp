@@ -4,6 +4,7 @@
 #include <string>
 #include <algorithm>
 #include <fstream>
+#include <vector>
 using namespace std;
 
 Manager::~Manager()
@@ -137,21 +138,73 @@ Result Manager::Update()
     if (m_graph.Size() == 0)
         return FaildtoUpdatePath;
     Vertex* moveV = m_graph.GetHead();
-    char* temp1;
-    char* temp2;
+    string tempstr;
+    vector<char*> v;
+    char* temp1 = new char[100];
+    char* temp2 = new char[100];
     for (int i = 0; i < m_graph.Size(); i++)
     {
         Edge* moveE = moveV->GetHeadOfEdge();
         for (int j = 0; j < m_graph.FindVertex(moveV->GetKey())->Size(); j++)
         {
-            temp1 = moveV->GetName();
-            char* people1 = strtok(temp1, "'");
-            temp2 = m_graph.FindVertex(moveE->GetKey())->GetName();
-            char* people2 = strtok(temp2, "'");
-            //RabinKarpCompare();
-            char* trash1 = strtok(temp1, " ");
-            char* trash2 = strtok(temp2, " ");
+            strcpy(temp1, moveV->GetName());
+            string people1 = strtok(temp1, "'");
+            char* trash1 = strtok(NULL, " ");
+            //char* shopname1 = strtok(NULL, " ");
+            while (1)
+            {
+                char* shopnametemp = strtok(NULL, " ");
+                if (shopnametemp == NULL) break;
+                tempstr = tempstr + shopnametemp + ' ';
+            }
+            strcpy(temp2, m_graph.FindVertex(moveE->GetKey())->GetName());
+            string people2 = strtok(temp2, "'");
+            char* trash2 = strtok(NULL, " ");
+            char* shopname2 = strtok(NULL, " ");
+            v.push_back(shopname2);
+            while (1)
+            {
+                shopname2 = strtok(NULL, " ");
+                if (shopname2 == NULL) break;
+                v.push_back(shopname2);
+            }
+            if (people1.size() >= 5 && people2.size() >= 5)
+            {
+                for (int i = 0; i <= people2.size()-5; i++)
+                {
+                    string cut = people2.substr(i, 5);
+                    if (RabinKarpCompare(people1, cut) == Success && people1.size() >= 10 && people2.size() >= 10)
+                    {//owner name same 5 && name size bigger same than 10
+                        moveE->SetWeight(ceil(double(moveE->GetWeight()) * 0.9));//10% drop in costs
+                        for (int i = 0; i <= people2.size() - 10; i++)
+                        {
+                            string cut = people2.substr(i, 10);
+                            if (RabinKarpCompare(people1, cut) == Success)
+                            {//owner name same 10
+                                moveE->SetWeight(ceil(double(moveE->GetWeight()) * 0.9));//10% drop in costs
+                                for (int i = 0; i <= v.size() - 10; i++)
+                                {
+                                    if (RabinKarpCompare(tempstr, v[i]) == Success)
+                                    {//store name same
+                                        moveE->SetWeight(ceil(double(moveE->GetWeight()) * 0.8));//20% drop in costs
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    else if (RabinKarpCompare(people1, cut) == Success && people2.size() < 10)
+                    {//owner name same 5 && name size lower than 10
+                        moveE->SetWeight(ceil(double(moveE->GetWeight()) * 0.9));//10% drop in costs
+                        break;
+                    }
+                }
+            }
             moveE = moveE->GetNext();//Edge move
+            tempstr = "";
+            v.clear();
         }
         moveV = moveV->GetNext();//Vertex move
     }
@@ -253,7 +306,7 @@ Result Manager::FindShortestPathFloyd()
     return Success;
 }
 
-Result Manager::RabinKarpCompare(const char* CompareString)
+Result Manager::RabinKarpCompare(string longstr, string shortstr)
 {
 
     return Success;

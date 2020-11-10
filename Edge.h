@@ -27,6 +27,8 @@ public:
     }
     /// set the next pointer of this edge
     void SetNext(Edge* pNext) { this->m_pNext = pNext; }
+    /// set the weight of this edge
+    void SetWeight(int weight) { this->m_weight = weight; }
     /// get the key of this edge
     int GetKey() const { return m_key; }
     /// get the weight of this edge
