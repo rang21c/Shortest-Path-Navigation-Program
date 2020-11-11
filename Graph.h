@@ -28,6 +28,31 @@ public:
     void AddVertex(int vertexKey, char* storeName);
     /// add edge from the vertex which the number is startVertexKey to the vertex which the number is endVertexKey
     void AddEdge(int startVertexKey, int endVertexKey, int weight);
+
+    Edge* ChangeEdge(Vertex* v, Edge* origin, int ChangeWeight)
+    {
+        Edge* newEdge = new Edge(origin->GetKey(), ChangeWeight);
+        if (origin == v->GetHeadOfEdge())
+        {
+            v->SetHead(newEdge);
+            if(origin->GetNext())
+                newEdge->SetNext(origin->GetNext());
+            delete origin;
+            return newEdge;
+        }
+        else
+        {
+            Edge* pCur = v->GetHeadOfEdge();
+            while (origin != pCur->GetNext())
+                pCur = pCur->GetNext();
+            pCur->SetNext(newEdge);
+            if (origin->GetNext())
+                newEdge->SetNext(origin->GetNext());
+            delete origin;
+            return newEdge;
+        }
+    }
+
     /// get the vertex which the key is vertexNum
     Vertex* FindVertex(int key) 
     {

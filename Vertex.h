@@ -6,7 +6,7 @@
 #endif
 
 #include "Edge.h"
-#include <string>
+#include <cstring>
 
 class Vertex
 {
@@ -40,6 +40,7 @@ public:
     /// set the next pointer of this vertex
     void SetNext(Vertex* pNext) { this->m_pNext = pNext; }
     void SetSize(int size) { this->m_size = size; }
+    void SetHead(Edge* newhead) { this->m_pEHead = newhead; }
     /// get the key of this vertex
     int GetKey() const { return this->m_key; }
     // the next pointer of this vertex

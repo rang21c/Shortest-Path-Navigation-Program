@@ -4,6 +4,7 @@
 enum Result
 {
     Success = 0,
+    Fail = 1,
 
     InvalidAlgorithmName = 001,
     InvalidOptionName = 003,
