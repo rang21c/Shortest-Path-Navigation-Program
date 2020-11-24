@@ -1,9 +1,10 @@
 #include "Graph.h"
 #include "Stack.h"
+#include "Queue.h"
 #include "MinHeap.h"
 #include <set>
 
-#define DFS_FIRST_PATH
+#define BFS_FIRST_PATH
 
 Graph::Graph()
 {
@@ -86,4 +87,40 @@ bool Graph::IsNegativeEdge()
         }
     }
     return false;
+}
+
+std::vector<int> Graph::FindPathBfs(int startVertexKey, int endVertexKey)
+{
+    vector<int> answer;
+    Queue<int> q;
+    bool *visit = new bool[200];
+    fill(visit, visit + 200, false);
+    visit[startVertexKey] = true;
+    answer.push_back(startVertexKey);
+    q.push(startVertexKey);
+    while (!visit[endVertexKey] == visited)
+    {//repeat endVertexKey
+        int x = q.getfront();
+        q.pop();
+        Edge* temp = FindVertex(x)->GetHeadOfEdge();
+        for (int i = 0; i < FindVertex(x)->Size(); i++)
+        {
+            if (!visit[temp->GetKey()])
+            {
+                q.push(temp->GetKey());
+                visit[temp->GetKey()] = visited;
+                answer.push_back(temp->GetKey());
+            }
+            temp = temp->GetNext();
+        }
+    }
+    return answer;
+}
+
+std::vector<int> Graph::FindShortestPathDijkstraUsingSet(int startVertexKey, int endVertexKey)
+{
+    vector<int> answer;
+
+
+    return answer;
 }

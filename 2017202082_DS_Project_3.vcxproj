@@ -143,6 +143,7 @@
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="MinHeap.h" />
+    <ClInclude Include="Queue.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Vertex.h" />

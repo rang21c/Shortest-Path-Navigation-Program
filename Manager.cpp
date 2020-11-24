@@ -38,6 +38,8 @@ void Manager::Run(const char* filepath)//filepath is command.txt
         fin.getline(cmd, 100);//read line
         char* tmp = strtok(cmd, " ");//word cutting
         if (tmp == NULL) break;
+        if (tmp[0] == '/' && tmp[1] == '/') 
+            continue;
         if (strcmp(tmp, "LOAD") == 0)
         {
             if (Load("mapdata.txt") == LoadFileNotExist)
@@ -75,6 +77,83 @@ void Manager::Run(const char* filepath)//filepath is command.txt
             {//PRINT is successful.
                 PrintError(Success);
             }
+        }
+        else if (strcmp(tmp, "BFS") == 0)
+        {
+            char* start = strtok(NULL, " ");
+            char* end = strtok(NULL, " ");
+            if (start == NULL || end == NULL)
+            {
+                PrintErrorName(tmp, "VertexKeyNotExist");
+                PrintError(VertexKeyNotExist);
+            }
+            else 
+            {
+                auto code = FindPathBfs(atoi(start), atoi(end));
+                if (code == 201)
+                {
+                    PrintErrorName(tmp, "InvalidVertexKey");
+                    PrintError(InvalidVertexKey);
+                }
+                else if (code == 202)
+                {
+                    PrintErrorName(tmp, "GraphNotExist");
+                    PrintError(GraphNotExist);
+                }
+                else
+                {
+                    PrintError(Success);
+                }
+            }
+        }
+        else if (strcmp(tmp, "DIJKSTRA") == 0)
+        {
+
+        }
+        else if (strcmp(tmp, "DIJKSTRAMIN") == 0)
+        {
+
+        }
+        else if (strcmp(tmp, "BELLMANFORD") == 0)
+        {
+
+        }
+        else if (strcmp(tmp, "FLOYD") == 0)
+        {
+
+        }
+        else if (strcmp(tmp, "CONFIG") == 0)
+        {
+            char* option = strtok(NULL, " ");
+            char* SortSel = strtok(NULL, " ");
+            if (strcmp(option, "-sort") != 0)
+            {
+                PrintErrorName(tmp, "InvalidOptionName");
+                PrintError(InvalidOptionName);
+            }
+            else
+            {
+                if (strcmp(SortSel, "quick") == 0)
+                    sel = 1;
+                else if (strcmp(SortSel, "insert") == 0)
+                    sel = 2;
+                else if (strcmp(SortSel, "merge") == 0)
+                    sel = 3;
+                else if (strcmp(SortSel, "heap") == 0)
+                    sel = 4;
+                else if (strcmp(SortSel, "bubble") == 0)
+                    sel = 5;
+                else
+                {
+                    PrintErrorName(tmp, "InvalidAlgorithmName");
+                    PrintError(InvalidAlgorithmName);
+                }
+            }
+        }
+        else
+        {
+            PrintErrorName(tmp, "NonDefinedCommand");
+            PrintError(NonDefinedCommand);
         }
     }
 }
@@ -222,7 +301,7 @@ Result Manager::Print()
     return Success;//Success if the printing is successful
 }
 /// <summary>
-/// find the path from startVertexKey to endVertexKey with DFS (stack)
+/// find the path from startVertexKey to endVertexKey with BFS (stack and queue)
 /// </summary>
 ///
 /// <param name="startVertexKey">
@@ -236,9 +315,65 @@ Result Manager::Print()
 /// Result::InvalidVertexKey or Result::GraphNotExist or Result::InvalidAlgorithm if an exception has occurred.
 /// Result::Success otherwise.
 /// </returns>
-Result Manager::FindPathDfs(int startVertexKey, int endVertexKey)
+Result Manager::FindPathBfs(int startVertexKey, int endVertexKey)
 {
-    // TODO: implement
+    if (m_graph.FindVertex(startVertexKey) == NULL || m_graph.FindVertex(endVertexKey) == NULL)
+        return InvalidVertexKey;
+    if (m_graph.GetHead() == NULL)
+        return GraphNotExist;
+    vector<int> v = m_graph.FindPathBfs(startVertexKey, endVertexKey);//BFS
+    vector<int> sorted = v;//sorted path
+    string course;
+    fout << "======BFS======" << endl;
+    cout << "======BFS======" << endl;
+    fout << "shortest path: ";
+    cout << "shortest path: ";
+    for (int i = 0; i < v.size(); i++)
+    {
+        fout << v[i] << " ";
+        cout << v[i] << " ";
+    }
+    fout << endl << "sorted path: ";
+    cout << endl << "sorted path: ";
+    //SORT
+    if (sel == 1)
+        QuickSort(sorted, 0, sorted.size() - 1);
+    else if (sel == 2)
+        InsertSort(sorted);
+    else if (sel == 3)
+        MergeSort(sorted, 0, sorted.size() - 1);
+    else if (sel == 4)
+        HeapSort(sorted);
+    else if (sel == 5)
+        BubbleSort(sorted);
+    for (int i = 0; i < sorted.size(); i++)
+    {
+        fout << sorted[i] << " ";
+        cout << sorted[i] << " ";
+    }
+    int length = 0;
+    auto vertex = m_graph.FindVertex(v[0]);
+    course += vertex->GetName();
+    course += ' ';
+    for (int i = 1; i < v.size(); i++)
+    {
+        auto edge = vertex->GetHeadOfEdge();
+        while (edge->GetKey() != v[i])
+        {
+            edge = edge->GetNext();
+        }
+        length += edge->GetWeight();
+        course += m_graph.FindVertex(edge->GetKey())->GetName();
+        course += ' ';
+        vertex = m_graph.FindVertex(edge->GetKey());
+    }
+    fout << endl << "path length: " << length << endl;
+    cout << endl << "path length: " << length << endl;
+    //rabincarp
+    fout << "Course : " << course << endl;
+    cout << "Course : " << course << endl;
+    fout << "====================" << endl << endl;
+    cout << "====================" << endl << endl;
     return Success;
 }
 /// <summary>
@@ -343,4 +478,58 @@ Result Manager::RabinKarpCompare(string longstr, string shortstr)
         }
     }
     return Fail;//Hash Mismatch!!
+}
+
+void Manager::QuickSort(vector<int>& v, int left, int right)
+{
+
+}
+
+int Manager::Partition(vector<int>& v, int left, int right)
+{
+    return 0;
+}
+
+void Manager::InsertSort(vector<int>& v)
+{
+    int i, j, key;
+    for (i = 1; i < v.size(); i++)
+    {
+        key = v[i];//set key
+        for (j = i - 1; j >= 0; j--)
+        {
+            if (v[j] > key)
+                v[j + 1] = v[j];//Push
+            else
+                break;
+        }
+        v[j + 1] = key;//Insert key value
+    }
+}
+
+void Manager::MergeSort(vector<int>& v, int left, int right)
+{
+
+}
+
+void Manager::Merge(vector<int>& v, int left, int mid, int right)
+{
+
+}
+
+void Manager::HeapSort(vector<int>& v)
+{
+
+}
+
+void Manager::BubbleSort(vector<int>& v)
+{
+    for (int i = 0; i < v.size()-1; i++)
+    {
+        for (int j = 0; j < v.size() - 1 - i; i++)
+        {
+            if (v[i] > v[i + 1])
+                swap(v[i], v[i + 1]);
+        }
+    }
 }

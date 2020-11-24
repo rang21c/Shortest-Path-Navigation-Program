@@ -72,11 +72,11 @@ public:
     void Clear()
     {
         Edge* moveE = this->m_pEHead;
-        while (moveE)
+        while (m_pEHead != NULL)
         {
-            Edge* del = moveE;
-            moveE = moveE->GetNext();
-            delete del;
+            moveE = m_pEHead;
+            m_pEHead = m_pEHead->GetNext();
+            delete moveE;
         }
     }
 };

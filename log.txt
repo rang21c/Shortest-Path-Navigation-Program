@@ -40,3 +40,22 @@ Error code: 0
 Error code: 0
 =================
 
+======BFS======
+shortest path: 0 1 2 5 3 
+sorted path: 0 1 2 3 5 
+path length: 22
+Course : Denny's Bread Chodenny's Car shop Granddey's Go Kicking Jeawon's Computer Academy Labuajiea's Yoga class 
+====================
+
+=================
+Error code: 0
+=================
+
+====== ASTAR ======
+NonDefinedCommand
+====================
+
+=================
+Error code: 300
+=================
+
