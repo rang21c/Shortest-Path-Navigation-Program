@@ -3,6 +3,7 @@
 #include "Queue.h"
 #include "MinHeap.h"
 #include <set>
+#include <algorithm>
 
 #define BFS_FIRST_PATH
 
@@ -108,10 +109,10 @@ std::vector<int> Graph::FindPathBfs(int startVertexKey, int endVertexKey)
             if (!visit[temp->GetKey()])
             {
                 q.push(temp->GetKey());
-                visit[temp->GetKey()] = visited;
-                answer.push_back(temp->GetKey());
+                visit[temp->GetKey()] = visited;//visit
+                answer.push_back(temp->GetKey());//path insert
             }
-            temp = temp->GetNext();
+            temp = temp->GetNext();//move next edge
         }
     }
     return answer;
@@ -120,7 +121,47 @@ std::vector<int> Graph::FindPathBfs(int startVertexKey, int endVertexKey)
 std::vector<int> Graph::FindShortestPathDijkstraUsingSet(int startVertexKey, int endVertexKey)
 {
     vector<int> answer;
+    vector<int> distance(this->Size(), IN_FINITY);//Initialize distance 
+    vector<int> path(this->Size(), -1);//Initialize path -1
+    distance[startVertexKey] = 0;
+    set<pair<int, int>> kw;//key, weight
+    kw.insert(make_pair(startVertexKey, 0));
+    answer.push_back(startVertexKey);
 
-
+    while (!kw.empty())
+    {
+        pair<int, int> temp = *kw.begin();//make pair
+        kw.erase(temp);
+        Vertex* cur = this->FindVertex(temp.first);
+        Edge* moveE = cur->GetHeadOfEdge();
+        for (int i = 0; i < cur->Size(); i++)
+        {
+            if (distance[moveE->GetKey()] > distance[temp.first] + moveE->GetWeight())
+            {//find min
+                kw.erase(make_pair(moveE->GetKey(), distance[moveE->GetKey()]));//erase key, weight
+                distance[moveE->GetKey()] = distance[temp.first] + moveE->GetWeight();//distance change
+                kw.insert(make_pair(moveE->GetKey(), distance[moveE->GetKey()]));//insert key, weight
+                path[moveE->GetKey()] = temp.first;//path remember
+            }
+            moveE = moveE->GetNext();
+        }
+    }
+    vector<int> temp;
+    int tempkey = endVertexKey;
+    while (1)
+    {//make path
+        temp.push_back(tempkey);
+        if (tempkey == startVertexKey)
+            break;
+        tempkey = path[tempkey];
+    }
+    reverse(temp.begin(), temp.end());//reverse path
+    answer = temp;
     return answer;
+}
+
+std::vector<int> Graph::FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int endVertexKey)
+{
+
+    return std::vector<int>();
 }

@@ -21,7 +21,7 @@ public:
     void Run(const char* filepath);
     void PrintError(Result result);
     void PrintErrorName(char* command, string name);
-    int sel;//sort selector
+    int sel=2;//sort selector
 private:
     Result Load(const char* filepath);
     Result Update();
