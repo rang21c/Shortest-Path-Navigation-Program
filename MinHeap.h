@@ -1,8 +1,10 @@
 #ifndef MIN_HEAP_H
 #define MIN_HEAP_H
 
+#include <iostream>
 #include <utility>
 #include <vector>
+using namespace std;
 
 template<typename TKey, typename TValue>
 class MinHeap
@@ -25,7 +27,7 @@ public:
 
     void Pop()
     {
-        Heapify(1);//delete m_vec[1]
+        Heapify(0);//delete m_vec[1]
     }
 
     std::pair<TKey, TValue> Top()
@@ -45,7 +47,10 @@ public:
 
     bool IsEmpty()
     {
-        return m_vec.empty();
+        if (m_vec.size() == 1)
+            return true;
+        else
+            return false;
     }
     /// <summary>
     /// change the key of the node which the value is the target.<para/>
@@ -55,8 +60,13 @@ public:
     {
         int i = 0;
         for (i = 0; i < m_vec.size(); i++)
+        {
             if (target == m_vec[i].second)
-                m_vec[i].first = newKey; break;
+            {
+                m_vec[i].first = newKey;
+                break;
+            }
+        }
         pair<TKey, TValue> temp = m_vec[i];
         int curnode = i;
         while (curnode != 1 && m_vec[curnode / 2].first > temp.first)
@@ -76,25 +86,26 @@ private:
     /// </summary>
     void Heapify(int index)
     {
-        if (index == 1)//pop m_vec[1]
+        if (index == 0)//pop m_vec[1]
         {
             if (IsEmpty())
                 return;
+
             pair<TKey, TValue> last = m_vec[m_vec.size()-1];
-            m_vec.pop_back();
             int curnode = 1;//root
             int child = 2;//curnode child
-            while (child <= m_vec.size())
+            while (child <= m_vec.size() - 1)
             {
-                if (child < m_vec.size() && m_vec[child] < m_vec[child + 1])
+                if (child < m_vec.size() - 1 && m_vec[child].first > m_vec[child + 1].first)
                     child++;
-                if (last >= m_vec[child])
+                if (last.first <= m_vec[child].first)
                     break;
                 m_vec[curnode] = m_vec[child];
                 curnode = child;
                 child = child * 2;
             }
             m_vec[curnode] = last;
+            m_vec.resize(m_vec.size() - 1);
         }
         else//push
         {

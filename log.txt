@@ -62,16 +62,15 @@ Course : Denny's Bread Jeawon's Computer Academy Labuajiea's Yoga class
 Error code: 0
 =================
 
-=================
-Error code: 0
-=================
-
-====== DIJKSTRA ======
-InvalidVertexKey
+======DIJKSTRAMIN======
+shortest path: 0 5 3 
+sorted path: 0 3 5 
+path length: 5
+Course : Denny's Bread Jeawon's Computer Academy Labuajiea's Yoga class 
 ====================
 
 =================
-Error code: 201
+Error code: 0
 =================
 
 ====== ASTAR ======

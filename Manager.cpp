@@ -505,7 +505,66 @@ Result Manager::FindShortestPathDijkstraUsingSet(int startVertexKey, int endVert
 /// </returns>
 Result Manager::FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int endVertexKey)
 {
-    
+    if (m_graph.FindVertex(startVertexKey) == NULL || m_graph.FindVertex(endVertexKey) == NULL)
+        return InvalidVertexKey;//Vertex entered as a factor is not in the island's distance information data
+    if (m_graph.GetHead() == NULL)
+        return GraphNotExist;//Island distance information data does not exist
+    if (m_graph.IsNegativeEdge())
+        return InvalidAlgorithm;//Negative Weight exists in the island's distance information data.
+    vector<int> v = m_graph.FindShortestPathDijkstraUsingMinHeap(startVertexKey, endVertexKey);//BFS
+    vector<int> sorted = v;//sorted path
+    string course;
+    fout << "======DIJKSTRAMIN======" << endl;
+    cout << "======DIJKSTRAMIN======" << endl;
+    fout << "shortest path: ";
+    cout << "shortest path: ";
+    for (int i = 0; i < v.size(); i++)
+    {
+        fout << v[i] << " ";
+        cout << v[i] << " ";
+    }
+    fout << endl << "sorted path: ";
+    cout << endl << "sorted path: ";
+    //SORT select
+    if (sel == 1)
+        QuickSort(sorted, 0, sorted.size() - 1);
+    else if (sel == 2)
+        InsertSort(sorted);
+    else if (sel == 3)
+        MergeSort(sorted, 0, sorted.size() - 1);
+    else if (sel == 4)
+        HeapSort(sorted);
+    else if (sel == 5)
+        BubbleSort(sorted);
+    for (int i = 0; i < sorted.size(); i++)
+    {
+        fout << sorted[i] << " ";
+        cout << sorted[i] << " ";
+    }
+    int length = 0;
+    auto vertex = m_graph.FindVertex(v[0]);
+    course += vertex->GetName();//course save
+    course += ' ';
+    for (int i = 1; i < v.size(); i++)
+    {
+        auto edge = vertex->GetHeadOfEdge();
+        while (edge->GetKey() != v[i])
+        {
+            edge = edge->GetNext();
+        }
+        length += edge->GetWeight();
+        course += m_graph.FindVertex(edge->GetKey())->GetName();//course save
+        course += ' ';
+        vertex = m_graph.FindVertex(edge->GetKey());
+    }
+    fout << endl << "path length: " << length << endl;
+    cout << endl << "path length: " << length << endl;
+    //rabincarp
+    fout << "Course : " << course << endl;
+    cout << "Course : " << course << endl;
+    fout << "====================" << endl << endl;
+    cout << "====================" << endl << endl;
+    return Success;
     return Success;
 }
 /// <summary>

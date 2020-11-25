@@ -162,6 +162,40 @@ std::vector<int> Graph::FindShortestPathDijkstraUsingSet(int startVertexKey, int
 
 std::vector<int> Graph::FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int endVertexKey)
 {
+    vector<int> answer;
+    vector<int> distance(this->Size(), IN_FINITY);//Initialize distance
+    distance[startVertexKey] = 0;
+    vector<int> path(this->Size(), -1);//Initialize path -1
+    MinHeap<int, int> heap;
+    heap.Push(0, startVertexKey);
 
-    return std::vector<int>();
+    while (!heap.IsEmpty())
+    {
+        pair<int, int> temp = heap.Top();//make pair
+        heap.Pop();
+        Vertex* cur = this->FindVertex(temp.second);
+        Edge* moveE = cur->GetHeadOfEdge();
+        for (int i = 0; i < cur->Size(); i++)
+        {
+            if (distance[moveE->GetKey()] > distance[temp.second] + moveE->GetWeight())
+            {
+                distance[moveE->GetKey()] = distance[temp.second] + moveE->GetWeight();
+                heap.Push(distance[moveE->GetKey()], moveE->GetKey());
+                path[moveE->GetKey()] = temp.second;//path remember
+            }
+            moveE = moveE->GetNext();
+        }
+    }
+    vector<int> temp;
+    int tempkey = endVertexKey;
+    while (1)
+    {//make path
+        temp.push_back(tempkey);
+        if (tempkey == startVertexKey)
+            break;
+        tempkey = path[tempkey];
+    }
+    reverse(temp.begin(), temp.end());//reverse path
+    answer = temp;
+    return answer;
 }
