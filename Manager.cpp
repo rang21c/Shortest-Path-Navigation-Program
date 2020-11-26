@@ -6,7 +6,9 @@
 #include <algorithm>
 #include <fstream>
 #include <vector>
+#include "MinHeap.h"
 using namespace std;
+vector<int> temp(999999, 0);
 
 Manager::~Manager()
 {
@@ -21,7 +23,6 @@ void Manager::Run(const char* filepath)//filepath is command.txt
     fstream fin;
     fin.open(filepath);
     fout.open(RESULT_LOG_PATH);//log.txt open
-    //ferr.open(ERROR_LOG_PATH);
     if (!fin)
     {
         fout << "====== SYSTEM ======" << endl;
@@ -633,12 +634,24 @@ Result Manager::RabinKarpCompare(string longstr, string shortstr)
 
 void Manager::QuickSort(vector<int>& v, int left, int right)
 {
+    int i = left + 1;
+    int j = right;
+    int pivot = v[left];
+    while (i < j)
+    {
+        while (v[i] < pivot) i++;
+        while (v[j] > pivot) j--;
+        if (i < j)
+        {
+            swap(v[i], v[j]);
+            i++;
+            j--;
+        }
+    }
+    swap(v[left], v[j]);
 
-}
-
-int Manager::Partition(vector<int>& v, int left, int right)
-{
-    return 0;
+    if (left + 1 < j) QuickSort(v, left, j - 1);
+    if (i < right) QuickSort(v, i, right);
 }
 
 void Manager::InsertSort(vector<int>& v)
@@ -660,17 +673,43 @@ void Manager::InsertSort(vector<int>& v)
 
 void Manager::MergeSort(vector<int>& v, int left, int right)
 {
-
-}
-
-void Manager::Merge(vector<int>& v, int left, int mid, int right)
-{
-
+    int mid;
+    if (left >= right)
+        return;
+    mid = (left + right) / 2;//Divide
+    MergeSort(v, left, mid);//left Conquer
+    MergeSort(v, mid + 1, right);//right Conquer
+    //merge
+    int i = left;
+    int j = mid + 1;
+    int k = left;
+    while (i <= mid && j <= right)
+    {
+        if (v[i] <= v[j])
+            temp[k++] = v[i++];
+        else
+            temp[k++] = v[j++];
+    }
+    if (i > mid)
+        for (int l = j; l <= right; l++)
+            temp[k++] = v[l];
+    else
+        for (int l = i; l <= right; l++)
+            temp[k++] = v[l];
+    for (int l = left; l <= right; l++)
+        v[l] = temp[l];//array copy
 }
 
 void Manager::HeapSort(vector<int>& v)
 {
-
+    MinHeap<int, int> heap;
+    for (int i = 0; i < v.size(); i++)
+        heap.Push(v[i], 0);
+    for (int i = 0; i < v.size(); i++)
+    {
+        v[i] = heap.Top().first;
+        heap.Pop();
+    }
 }
 
 void Manager::BubbleSort(vector<int>& v)

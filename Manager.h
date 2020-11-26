@@ -33,10 +33,8 @@ private:
     Result FindShortestPathFloyd();
     Result RabinKarpCompare(string longstr, string shortstr);
     void QuickSort(vector<int>& v, int left, int right);
-    int Partition(vector<int>& v, int left, int right);
     void InsertSort(vector<int>& v);
     void MergeSort(vector<int>& v, int left, int right);
-    void Merge(vector<int>& v, int left, int mid, int right);
     void HeapSort(vector<int>& v);
     void BubbleSort(vector<int>& v);
 };
