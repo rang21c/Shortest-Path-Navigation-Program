@@ -199,3 +199,57 @@ std::vector<int> Graph::FindShortestPathDijkstraUsingMinHeap(int startVertexKey,
     answer = temp;
     return answer;
 }
+
+std::vector<int> Graph::FindShortestPathBellmanFord(int startVertexKey, int endVertexKey)
+{
+    vector<int> answer;
+    vector<int> distance(this->Size(), IN_FINITY);
+    distance[startVertexKey] = 0;
+    vector<int> path(this->Size(), -1);
+
+    auto moveV = this->FindVertex(startVertexKey);
+    Edge* moveE = moveV->GetHeadOfEdge();
+    for (int i = 1; i < this->Size() - 1; i++)
+    {
+        moveE = moveV->GetHeadOfEdge();
+        while (moveE)
+        {
+            if (distance[moveV->GetKey()] != IN_FINITY && distance[moveE->GetKey()] > distance[moveV->GetKey()] + moveE->GetWeight())
+            {//change distance
+                distance[moveE->GetKey()] = distance[moveV->GetKey()] + moveE->GetWeight();
+                path[moveE->GetKey()] = moveV->GetKey();//change path
+            }
+            moveE = moveE->GetNext();
+        }
+        moveV = moveV->GetNext();
+    }
+    moveE = moveV->GetHeadOfEdge();
+    while (moveE)
+    {
+        if (distance[moveV->GetKey()] != IN_FINITY && distance[moveE->GetKey()] > distance[moveV->GetKey()] + moveE->GetWeight())
+        {//NegativeCycleDetected
+            distance.resize(0);
+            return distance;
+        }
+        moveE = moveE->GetNext();
+    }
+    vector<int> temp;
+    int tempkey = endVertexKey;
+    while (1)
+    {//make path
+        temp.push_back(tempkey);
+        if (tempkey == startVertexKey)
+            break;
+        tempkey = path[tempkey];
+    }
+    reverse(temp.begin(), temp.end());//reverse path
+    answer = temp;
+    return answer;
+}
+
+std::vector<vector<int>> Graph::FindShortestPathFloyd()
+{
+    vector<vector<int>> answer;
+
+    return answer;
+}

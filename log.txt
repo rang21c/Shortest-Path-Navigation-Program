@@ -73,6 +73,17 @@ Course : Denny's Bread Jeawon's Computer Academy Labuajiea's Yoga class
 Error code: 0
 =================
 
+======BELLMANFORD======
+shortest path: 1 2 4 
+sorted path: 1 2 4 
+path length: 9
+Course : Chodenny's Car shop Granddey's Go Kicking Grandy's Kicking Class 
+====================
+
+=================
+Error code: 0
+=================
+
 ====== ASTAR ======
 NonDefinedCommand
 ====================

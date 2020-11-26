@@ -175,7 +175,36 @@ void Manager::Run(const char* filepath)//filepath is command.txt
         }
         else if (strcmp(tmp, "BELLMANFORD") == 0)
         {
-
+            char* start = strtok(NULL, " ");
+            char* end = strtok(NULL, " ");
+            if (start == NULL || end == NULL)
+            {
+                PrintErrorName(tmp, "VertexKeyNotExist");
+                PrintError(VertexKeyNotExist);
+            }
+            else
+            {
+                auto code = FindShortestPathBellmanFord(atoi(start), atoi(end));
+                if (code == 201)
+                {
+                    PrintErrorName(tmp, "InvalidVertexKey");
+                    PrintError(InvalidVertexKey);
+                }
+                else if (code == 202)
+                {
+                    PrintErrorName(tmp, "GraphNotExist");
+                    PrintError(GraphNotExist);
+                }
+                else if (code == 204)
+                {
+                    PrintErrorName(tmp, "NegativeCycleDetected");
+                    PrintError(NegativeCycleDetected);
+                }
+                else
+                {
+                    PrintError(Success);
+                }
+            }
         }
         else if (strcmp(tmp, "FLOYD") == 0)
         {
@@ -492,18 +521,6 @@ Result Manager::FindShortestPathDijkstraUsingSet(int startVertexKey, int endVert
 /// <summary>
 /// find the shortest path from startVertexKey to endVertexKey with Dijkstra using MinHeap
 /// </summary>
-///
-/// <param name="startVertexKey">
-/// the start vertex key
-/// </param>
-/// <param name="endVertexKey">
-/// the end vertex key
-/// </param>
-///
-/// <returns>
-/// Result::InvalidVertexKey or Result::GraphNotExist or Result::InvalidAlgorithm if an exception has occurred.
-/// Result::Success otherwise.
-/// </returns>
 Result Manager::FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int endVertexKey)
 {
     if (m_graph.FindVertex(startVertexKey) == NULL || m_graph.FindVertex(endVertexKey) == NULL)
@@ -566,7 +583,6 @@ Result Manager::FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int end
     fout << "====================" << endl << endl;
     cout << "====================" << endl << endl;
     return Success;
-    return Success;
 }
 /// <summary>
 /// find the shortest path from startVertexKey to endVertexKey with Bellman-Ford
@@ -585,7 +601,65 @@ Result Manager::FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int end
 /// </returns>
 Result Manager::FindShortestPathBellmanFord(int startVertexKey, int endVertexKey)
 {
-    // TODO: implement
+    if (m_graph.FindVertex(startVertexKey) == NULL || m_graph.FindVertex(endVertexKey) == NULL)
+        return InvalidVertexKey;//Vertex entered as a factor is not in the island's distance information data
+    if (m_graph.GetHead() == NULL)
+        return GraphNotExist;//Island distance information data does not exist
+    vector<int> v = m_graph.FindShortestPathBellmanFord(startVertexKey, endVertexKey);//BFS
+    if(v.size() == 0)
+        return NegativeCycleDetected;//Negative cycle exists in the island's distance information data.
+    vector<int> sorted = v;//sorted path
+    string course;
+    fout << "======BELLMANFORD======" << endl;
+    cout << "======BELLMANFORD======" << endl;
+    fout << "shortest path: ";
+    cout << "shortest path: ";
+    for (int i = 0; i < v.size(); i++)
+    {
+        fout << v[i] << " ";
+        cout << v[i] << " ";
+    }
+    fout << endl << "sorted path: ";
+    cout << endl << "sorted path: ";
+    //SORT select
+    if (sel == 1)
+        QuickSort(sorted, 0, sorted.size() - 1);
+    else if (sel == 2)
+        InsertSort(sorted);
+    else if (sel == 3)
+        MergeSort(sorted, 0, sorted.size() - 1);
+    else if (sel == 4)
+        HeapSort(sorted);
+    else if (sel == 5)
+        BubbleSort(sorted);
+    for (int i = 0; i < sorted.size(); i++)
+    {
+        fout << sorted[i] << " ";
+        cout << sorted[i] << " ";
+    }
+    int length = 0;
+    auto vertex = m_graph.FindVertex(v[0]);
+    course += vertex->GetName();//course save
+    course += ' ';
+    for (int i = 1; i < v.size(); i++)
+    {
+        auto edge = vertex->GetHeadOfEdge();
+        while (edge->GetKey() != v[i])
+        {
+            edge = edge->GetNext();
+        }
+        length += edge->GetWeight();
+        course += m_graph.FindVertex(edge->GetKey())->GetName();//course save
+        course += ' ';
+        vertex = m_graph.FindVertex(edge->GetKey());
+    }
+    fout << endl << "path length: " << length << endl;
+    cout << endl << "path length: " << length << endl;
+    //rabincarp
+    fout << "Course : " << course << endl;
+    cout << "Course : " << course << endl;
+    fout << "====================" << endl << endl;
+    cout << "====================" << endl << endl;
     return Success;
 }
 

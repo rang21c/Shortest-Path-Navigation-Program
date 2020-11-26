@@ -89,7 +89,7 @@ public:
     /// find the shortest path from startVertexKey to endVertexKey with Bellman-Ford
     std::vector<int> FindShortestPathBellmanFord(int startVertexKey, int endVertexKey);
     
-    std::vector<vector<int> > FindShortestPathFloyd();
+    std::vector<vector<int>> FindShortestPathFloyd();
 };
 
 #endif
