@@ -14,8 +14,6 @@ Manager::~Manager()
 {
     if (fout.is_open())
         fout.close();
-    //if (ferr.is_open())
-       //ferr.close();
 }
 
 void Manager::Run(const char* filepath)//filepath is command.txt
@@ -208,7 +206,16 @@ void Manager::Run(const char* filepath)//filepath is command.txt
         }
         else if (strcmp(tmp, "FLOYD") == 0)
         {
-
+            auto code = FindShortestPathFloyd();
+            if (code == 202)
+            {
+                PrintErrorName(tmp, "GraphNotExist");
+                PrintError(GraphNotExist);
+            }
+            else
+            {
+                PrintError(Success);
+            }
         }
         else if (strcmp(tmp, "CONFIG") == 0)
         {
@@ -665,6 +672,23 @@ Result Manager::FindShortestPathBellmanFord(int startVertexKey, int endVertexKey
 
 Result Manager::FindShortestPathFloyd()
 {
+    if (m_graph.GetHead() == NULL)
+        return GraphNotExist;//Island distance information data does not exist
+    vector<vector<int>> v = m_graph.FindShortestPathFloyd();
+    fout << "======FLOYD======" << endl;
+    cout << "======FLOYD======" << endl;
+    for (int i = 0; i < v[0].size(); i++)
+    {
+        for (int j = 0; j < v[0].size(); j++)
+        {
+            fout << v[i][j] << " ";
+            cout << v[i][j] << " ";
+        }
+        fout << endl;
+        cout << endl;
+    }
+    fout << "====================" << endl << endl;
+    cout << "====================" << endl << endl;
     return Success;
 }
 
@@ -673,37 +697,40 @@ Result Manager::RabinKarpCompare(string longstr, string shortstr)
     int Lsize = longstr.size();
     int Ssize = shortstr.size();
     int LHash = 0, SHash = 0, pow = 1;
+    bool check = false;
     for (int i = 0; i < Lsize - Ssize; i++)
     {
         if (i == 0)
-        {
+        {//Initial hash value generation
             for (int j = 0; j < Ssize; j++)
             {//Repeat as long as partial string
                 if ('A' <= longstr[Ssize - 1 - j] && longstr[Ssize - 1 - j] <= 'Z')
                     longstr[Ssize - 1 - j] = longstr[Ssize - 1 - j] + 32;
                 if ('A' <= shortstr[Ssize - 1 - j] && shortstr[Ssize - 1 - j] <= 'Z')
                     shortstr[Ssize - 1 - j] = shortstr[Ssize - 1 - j] + 32;
-                LHash = LHash + longstr[Ssize - 1 - j] * pow;
-                SHash = SHash + shortstr[Ssize - 1 - j] * pow;
+                LHash += longstr[Ssize - 1 - j] * pow;
+                SHash += shortstr[Ssize - 1 - j] * pow;
                 if (j < Ssize - 1)
                     pow = pow * 2;//square number increment
             }
         }
-        else//Remove the front one and add the back one.
+        else//Remove the front one and add the back one
             LHash = 2 * (LHash - longstr[i - 1] * pow) + longstr[Ssize - 1 + i];
         if (LHash == SHash)
         {//Check string matching if hash values are the same
-            bool check = true;
+            check = true;
             for (int j = 0; j < Ssize; j++)
             {
-                if (longstr[i + j] != shortstr[j])//Mismatch!!
-                    return Fail;
+                if (longstr[i + j] != shortstr[j])//Mismatch
+                    check = false;
             }
-            if (check == true)//Match!!
-                return Success;
         }
     }
-    return Fail;//Hash Mismatch!!
+    if (check == true)
+        return Success;//Hash Match
+    if (check == false)
+        return Fail;//Hash Mismatch
+    return Fail;//Hash Mismatch
 }
 
 void Manager::QuickSort(vector<int>& v, int left, int right)
