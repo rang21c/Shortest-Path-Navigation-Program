@@ -1,35 +1,41 @@
 ﻿  Manager.cpp
 C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.h(1,1): warning C4005: '_CRT_SECURE_NO_WARNINGS': 매크로 재정의
 C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp : message : '_CRT_SECURE_NO_WARNINGS'의 이전 정의를 참조하십시오.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(348,35): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(353,70): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(354,43): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(359,78): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(360,51): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(364,86): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(375,70): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(414,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(432,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(441,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(480,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(498,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(507,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(379,35): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(384,70): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(385,43): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(390,78): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(391,51): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(395,86): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(406,70): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(446,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(466,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(475,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(517,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(537,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
 C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(546,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(564,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(573,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(624,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(642,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(651,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(680,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(682,27): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(761,19): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(807,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(809,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(818,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(820,27): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(588,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(608,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(617,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(659,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(679,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(688,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(719,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(721,27): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(806,19): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(852,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(854,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(863,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(865,27): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(887,27): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(889,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(895,39): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(911,39): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(924,39): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(937,39): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
 C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\MinHeap.h(97,26): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
 C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\MinHeap.h(88): message : 클래스 템플릿 멤버 함수 'void MinHeap<int,int>::Heapify(int)'을(를) 컴파일하는 중입니다.
 C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\MinHeap.h(30): message : 컴파일되는 함수 템플릿 인스턴스화 'void MinHeap<int,int>::Heapify(int)'에 대한 참조를 확인하세요.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(806): message : 컴파일되는 클래스 템플릿 인스턴스화 'MinHeap<int,int>'에 대한 참조를 확인하세요.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Manager.cpp(851): message : 컴파일되는 클래스 템플릿 인스턴스화 'MinHeap<int,int>'에 대한 참조를 확인하세요.
 C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\MinHeap.h(99,27): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
   2017202082_DS_Project_3.vcxproj -> C:\Users\류화랑\source\repos\2017202082_DS_Project_3\Debug\2017202082_DS_Project_3.exe

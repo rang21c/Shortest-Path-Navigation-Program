@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <fstream>
 #include <vector>
+#include <chrono>
 #include "MinHeap.h"
 using namespace std;
 vector<int> temp(999999, 0);
@@ -224,24 +225,54 @@ void Manager::Run(const char* filepath)//filepath is command.txt
             if (strcmp(option, "-sort") != 0)
             {
                 PrintErrorName(tmp, "InvalidOptionName");
-                PrintError(InvalidOptionName);
+                fout << "=================" << endl;
+                fout << "Error code: 003" << endl;
+                fout << "=================" << endl << endl;
+                cout << "=================" << endl;
+                cout << "Error code: 003" << endl;
+                cout << "=================" << endl << endl;
             }
             else
             {
                 if (strcmp(SortSel, "quick") == 0)
+                {
+                    PrintErrorName((char*)"CONFIG LOG", "Sorted by : Quick Sorting");
+                    PrintError(Success);
                     sel = 1;
+                }
                 else if (strcmp(SortSel, "insert") == 0)
+                {
+                    PrintErrorName((char*)"CONFIG LOG", "Sorted by : Insert Sorting");
+                    PrintError(Success);
                     sel = 2;
+                }
                 else if (strcmp(SortSel, "merge") == 0)
+                {
+                    PrintErrorName((char*)"CONFIG LOG", "Sorted by : Merge Sorting");
+                    PrintError(Success);
                     sel = 3;
+                }
                 else if (strcmp(SortSel, "heap") == 0)
+                {
+                    PrintErrorName((char*)"CONFIG LOG", "Sorted by : Heap Sorting");
+                    PrintError(Success);
                     sel = 4;
+                }
                 else if (strcmp(SortSel, "bubble") == 0)
+                {
+                    PrintErrorName((char*)"CONFIG LOG", "Sorted by : Bubble Sorting");
+                    PrintError(Success);
                     sel = 5;
+                }
                 else
                 {
                     PrintErrorName(tmp, "InvalidAlgorithmName");
-                    PrintError(InvalidAlgorithmName);
+                    fout << "=================" << endl;
+                    fout << "Error code: 001" << endl;
+                    fout << "=================" << endl << endl;
+                    cout << "=================" << endl;
+                    cout << "Error code: 001" << endl;
+                    cout << "=================" << endl << endl;
                 }
             }
         }
@@ -370,7 +401,7 @@ Result Manager::Update()
                         }
                         break;
                     }
-                    else if (RabinKarpCompare(people1, cut) == Success && people2.size() < 10)
+                    else if (RabinKarpCompare(people1, cut) == Success && (people1.size() < 10 || people2.size() < 10))
                     {//owner name same 5 && name size lower than 10
                         moveE = m_graph.ChangeEdge(moveV, moveE, ceil(double(moveE->GetWeight()) * 0.9));//10% drop in costs
                         break;
@@ -404,6 +435,7 @@ Result Manager::FindPathBfs(int startVertexKey, int endVertexKey)
         return InvalidVertexKey;//Vertex entered as a factor is not in the island's distance information data
     if (m_graph.GetHead() == NULL)
         return GraphNotExist;//Island distance information data does not exist
+    std::chrono::system_clock::time_point StartTime = std::chrono::system_clock::now();
     vector<int> v = m_graph.FindPathBfs(startVertexKey, endVertexKey);//BFS
     vector<int> sorted = v;//sorted path
     string course;
@@ -429,6 +461,8 @@ Result Manager::FindPathBfs(int startVertexKey, int endVertexKey)
         HeapSort(sorted);
     else if (sel == 5)
         BubbleSort(sorted);
+    std::chrono::system_clock::time_point EndTime = std::chrono::system_clock::now();
+    std::chrono::nanoseconds nano = EndTime - StartTime;
     for (int i = 0; i < sorted.size(); i++)
     {
         fout << sorted[i] << " ";
@@ -453,10 +487,12 @@ Result Manager::FindPathBfs(int startVertexKey, int endVertexKey)
     fout << endl << "path length: " << length << endl;
     cout << endl << "path length: " << length << endl;
     //rabincarp
+    course = Compression(course);
     fout << "Course : " << course << endl;
     cout << "Course : " << course << endl;
     fout << "====================" << endl << endl;
     cout << "====================" << endl << endl;
+    cout << "BFS Time taken (nano seconds) : " << nano.count() << " nanoseconds" << endl << endl;
     return Success;
 }
 /// <summary>
@@ -470,7 +506,8 @@ Result Manager::FindShortestPathDijkstraUsingSet(int startVertexKey, int endVert
         return GraphNotExist;//Island distance information data does not exist
     if (m_graph.IsNegativeEdge())
         return InvalidAlgorithm;//Negative Weight exists in the island's distance information data.
-    vector<int> v = m_graph.FindShortestPathDijkstraUsingSet(startVertexKey, endVertexKey);//BFS
+    std::chrono::system_clock::time_point StartTime = std::chrono::system_clock::now();
+    vector<int> v = m_graph.FindShortestPathDijkstraUsingSet(startVertexKey, endVertexKey);//Dijkstra
     vector<int> sorted = v;//sorted path
     string course;
     fout << "======DIJKSTRA======" << endl;
@@ -495,6 +532,8 @@ Result Manager::FindShortestPathDijkstraUsingSet(int startVertexKey, int endVert
         HeapSort(sorted);
     else if (sel == 5)
         BubbleSort(sorted);
+    std::chrono::system_clock::time_point EndTime = std::chrono::system_clock::now();
+    std::chrono::nanoseconds nano = EndTime - StartTime;
     for (int i = 0; i < sorted.size(); i++)
     {
         fout << sorted[i] << " ";
@@ -519,10 +558,12 @@ Result Manager::FindShortestPathDijkstraUsingSet(int startVertexKey, int endVert
     fout << endl << "path length: " << length << endl;
     cout << endl << "path length: " << length << endl;
     //rabincarp
+    course = Compression(course);
     fout << "Course : " << course << endl;
     cout << "Course : " << course << endl;
     fout << "====================" << endl << endl;
     cout << "====================" << endl << endl;
+    cout << "DIJKSTRA Time taken (nano seconds) " << nano.count() << " nanoseconds" << endl << endl;
     return Success;
 }
 /// <summary>
@@ -536,7 +577,8 @@ Result Manager::FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int end
         return GraphNotExist;//Island distance information data does not exist
     if (m_graph.IsNegativeEdge())
         return InvalidAlgorithm;//Negative Weight exists in the island's distance information data.
-    vector<int> v = m_graph.FindShortestPathDijkstraUsingMinHeap(startVertexKey, endVertexKey);//BFS
+    std::chrono::system_clock::time_point StartTime = std::chrono::system_clock::now();
+    vector<int> v = m_graph.FindShortestPathDijkstraUsingMinHeap(startVertexKey, endVertexKey);//DIJKSTRAMIN
     vector<int> sorted = v;//sorted path
     string course;
     fout << "======DIJKSTRAMIN======" << endl;
@@ -561,6 +603,8 @@ Result Manager::FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int end
         HeapSort(sorted);
     else if (sel == 5)
         BubbleSort(sorted);
+    std::chrono::system_clock::time_point EndTime = std::chrono::system_clock::now();
+    std::chrono::nanoseconds nano = EndTime - StartTime;
     for (int i = 0; i < sorted.size(); i++)
     {
         fout << sorted[i] << " ";
@@ -585,34 +629,25 @@ Result Manager::FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int end
     fout << endl << "path length: " << length << endl;
     cout << endl << "path length: " << length << endl;
     //rabincarp
+    course = Compression(course);
     fout << "Course : " << course << endl;
     cout << "Course : " << course << endl;
     fout << "====================" << endl << endl;
     cout << "====================" << endl << endl;
+    cout << "DIJKSTRAMIN Time taken (nano seconds) : " << nano.count() << " nanoseconds" << endl << endl;
     return Success;
 }
 /// <summary>
 /// find the shortest path from startVertexKey to endVertexKey with Bellman-Ford
 /// </summary>
-///
-/// <param name="startVertexKey">
-/// the start vertex key
-/// </param>
-/// <param name="endVertexKey">
-/// the end vertex key
-/// </param>
-///
-/// <returns>
-/// Result::InvalidVertexKey or Result::GraphNotExist or Result::NegativeCycleDetected if exception has occurred.
-/// Result::Success otherwise.
-/// </returns>
 Result Manager::FindShortestPathBellmanFord(int startVertexKey, int endVertexKey)
 {
     if (m_graph.FindVertex(startVertexKey) == NULL || m_graph.FindVertex(endVertexKey) == NULL)
         return InvalidVertexKey;//Vertex entered as a factor is not in the island's distance information data
     if (m_graph.GetHead() == NULL)
         return GraphNotExist;//Island distance information data does not exist
-    vector<int> v = m_graph.FindShortestPathBellmanFord(startVertexKey, endVertexKey);//BFS
+    std::chrono::system_clock::time_point StartTime = std::chrono::system_clock::now();
+    vector<int> v = m_graph.FindShortestPathBellmanFord(startVertexKey, endVertexKey);//BELLMANFORD
     if(v.size() == 0)
         return NegativeCycleDetected;//Negative cycle exists in the island's distance information data.
     vector<int> sorted = v;//sorted path
@@ -639,6 +674,8 @@ Result Manager::FindShortestPathBellmanFord(int startVertexKey, int endVertexKey
         HeapSort(sorted);
     else if (sel == 5)
         BubbleSort(sorted);
+    std::chrono::system_clock::time_point EndTime = std::chrono::system_clock::now();
+    std::chrono::nanoseconds nano = EndTime - StartTime;
     for (int i = 0; i < sorted.size(); i++)
     {
         fout << sorted[i] << " ";
@@ -663,10 +700,12 @@ Result Manager::FindShortestPathBellmanFord(int startVertexKey, int endVertexKey
     fout << endl << "path length: " << length << endl;
     cout << endl << "path length: " << length << endl;
     //rabincarp
+    course = Compression(course);
     fout << "Course : " << course << endl;
     cout << "Course : " << course << endl;
     fout << "====================" << endl << endl;
     cout << "====================" << endl << endl;
+    cout << "BELLMANFORD Time taken (nano seconds) : " << nano.count() << " nanoseconds" << endl << endl;
     return Success;
 }
 
@@ -698,7 +737,7 @@ Result Manager::RabinKarpCompare(string longstr, string shortstr)
     int Ssize = shortstr.size();
     int LHash = 0, SHash = 0, pow = 1;
     bool check = false;
-    for (int i = 0; i < Lsize - Ssize; i++)
+    for (int i = 0; i <= Lsize - Ssize; i++)
     {
         if (i == 0)
         {//Initial hash value generation
@@ -715,14 +754,21 @@ Result Manager::RabinKarpCompare(string longstr, string shortstr)
             }
         }
         else//Remove the front one and add the back one
+        {
+            if ('A' <= longstr[Ssize - 1 + i] && longstr[Ssize - 1 + i] <= 'Z')
+                longstr[Ssize - 1 + i] = longstr[Ssize - 1 + i] + 32;
             LHash = 2 * (LHash - longstr[i - 1] * pow) + longstr[Ssize - 1 + i];
+        }
         if (LHash == SHash)
         {//Check string matching if hash values are the same
             check = true;
             for (int j = 0; j < Ssize; j++)
             {
                 if (longstr[i + j] != shortstr[j])//Mismatch
+                {
                     check = false;
+                    break;
+                }
             }
         }
     }
@@ -738,19 +784,18 @@ void Manager::QuickSort(vector<int>& v, int left, int right)
     int i = left + 1;
     int j = right;
     int pivot = v[left];
-    while (i < j)
+    while (i <= j)
     {
-        while (v[i] < pivot) i++;
-        while (v[j] > pivot) j--;
+        while (v[i] <= pivot && i<j) i++;
+        while (v[j] > pivot && i<=j) j--;
         if (i < j)
         {
             swap(v[i], v[j]);
-            i++;
-            j--;
         }
+        else
+            break;
     }
     swap(v[left], v[j]);
-
     if (left + 1 < j) QuickSort(v, left, j - 1);
     if (i < right) QuickSort(v, i, right);
 }
@@ -823,4 +868,89 @@ void Manager::BubbleSort(vector<int>& v)
                 swap(v[i], v[i + 1]);
         }
     }
+}
+
+string Manager::Compression(string s)
+{
+    string str1;
+    string str2;
+    string temp;
+    string Shop = "";
+    string Class = "";
+    string Academy = "";
+    int count = 0;
+    int shop_count = 0;
+    int class_count = 0;
+    int academy_count = 0;
+    for (int i = s.size() / 2; i > 0; i--)
+    {
+        for (int j = 0; j < s.size(); j++)
+        {
+            if (j + i < s.size())
+            {
+                str1 = s.substr(j, i);
+                str2 = s.substr(j + i);
+                if (RabinKarpCompare(str2, str1) == Success && str1.size() > 1)
+                {
+                    for (int k = 0; k < s.size() - i; k++)
+                    {//RabinKarp Official Compression Law No. 2
+                        temp = s.substr(k, i);
+                        if (RabinKarpCompare(str1, temp) == Success)
+                        {
+                            if (count == 0)
+                                s.insert(k+i, "*");
+                            count++;
+                        }
+                        if (count > 1)
+                        {
+                            s.erase(k, i);
+                            s.insert(k, " ");
+                            count = 1;
+                        }
+                    }
+                    for (int k = 0; k < s.size() - i; k++)
+                    {//Shop check
+                        Shop = s.substr(k, 4);
+                        if (RabinKarpCompare(Shop, "Shop") == Success)
+                        {
+                            shop_count++;
+                        }
+                        if (shop_count > 1)
+                        {
+                            s.erase(k, 4);
+                            s.insert(k, " ");
+                        }
+                    }
+                    for (int k = 0; k < s.size() - i; k++)
+                    {//Shop check
+                        Class = s.substr(k, 5);
+                        if (RabinKarpCompare(Class, "Class") == Success)
+                        {
+                            class_count++;
+                        }
+                        if (class_count > 1)
+                        {
+                            s.erase(k, 5);
+                            s.insert(k, " ");
+                        }
+                    }
+                    for (int k = 0; k < s.size() - i; k++)
+                    {//Shop check
+                        Academy = s.substr(k, 7);
+                        if (RabinKarpCompare(Academy, "Academy") == Success)
+                        {
+                            academy_count++;
+                        }
+                        if (academy_count > 1)
+                        {
+                            s.erase(k, 7);
+                            s.insert(k, " ");
+                        }
+                    }
+                    return s;
+                }
+            }
+        }
+    }
+    return s;
 }

@@ -2,7 +2,7 @@ LOAD mapdata.txt
 PRINT
 UPDATE
 PRINT
-CONFIG -sort heap
+CONFIG -sort quick
 BFS 0 3
 DIJKSTRA 0 3
 DIJKSTRAMIN 0 3

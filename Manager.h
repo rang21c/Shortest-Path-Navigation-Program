@@ -21,7 +21,7 @@ public:
     void Run(const char* filepath);
     void PrintError(Result result);
     void PrintErrorName(char* command, string name);
-    int sel=2;//sort selector
+    int sel=1;//sort selector
 private:
     Result Load(const char* filepath);
     Result Update();
@@ -37,6 +37,7 @@ private:
     void MergeSort(vector<int>& v, int left, int right);
     void HeapSort(vector<int>& v);
     void BubbleSort(vector<int>& v);
+    string Compression(string s);
 };
 
 #endif
