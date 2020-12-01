@@ -28,11 +28,11 @@ Error code: 0
 =================
 
 ====== PRINT ======
-0 54 130 0 0 10 
+0 60 130 0 0 10 
 0 0 50 60 0 50 
-20 0 0 70 36 70 
-0 60 0 0 30 50 
-0 0 45 20 0 90 
+20 0 0 70 29 70 
+0 60 0 0 24 50 
+0 0 36 16 0 90 
 50 60 80 40 50 0 
 ====================
 
@@ -41,7 +41,7 @@ Error code: 0
 =================
 
 ====== CONFIG LOG ======
-Sorted by : Quick Sorting
+Sorted by : Merge Sorting
 ====================
 
 =================
@@ -51,8 +51,8 @@ Error code: 0
 ======BFS======
 shortest path: 0 1 2 5 3 
 sorted path: 0 1 2 3 5 
-path length: 214
-Course : Denny's *Bread Cho Car shop Granddey's Go Kicking Jeawon's Computer Academy Labuajiea's Yoga class 
+path length: 220
+Course : Denny's *Bread ChoCar shop Granddey's Go kicking Jeawon's Computer Academy Labuajiea's Yoga class 
 ====================
 
 =================
@@ -63,7 +63,7 @@ Error code: 0
 shortest path: 0 5 3 
 sorted path: 0 3 5 
 path length: 50
-Course : Denny's *Bread Jeawon Computer Academy Labuajiea Yoga class 
+Course : Denny's *Bread JeawonComputer Academy LabuajieaYoga class 
 ====================
 
 =================
@@ -74,7 +74,7 @@ Error code: 0
 shortest path: 0 5 3 
 sorted path: 0 3 5 
 path length: 50
-Course : Denny's *Bread Jeawon Computer Academy Labuajiea Yoga class 
+Course : Denny's *Bread JeawonComputer Academy LabuajieaYoga class 
 ====================
 
 =================
@@ -82,10 +82,10 @@ Error code: 0
 =================
 
 ======BELLMANFORD======
-shortest path: 1 2 4 
-sorted path: 1 2 4 
-path length: 86
-Course : Chodenny's Car shop Granddey's Go Kicking *Grandy's Class 
+shortest path: 0 5 3 
+sorted path: 0 3 5 
+path length: 50
+Course : Denny's *Bread JeawonComputer Academy LabuajieaYoga class 
 ====================
 
 =================
@@ -93,11 +93,11 @@ Error code: 0
 =================
 
 ======FLOYD======
-0 54 90 50 60 10 
-70 0 50 60 86 50 
-20 74 0 56 36 30 
-95 60 75 0 30 50 
-65 80 45 20 0 70 
+0 60 90 50 60 10 
+70 0 50 60 79 50 
+20 80 0 45 29 30 
+80 60 60 0 24 50 
+56 76 36 16 0 66 
 50 60 80 40 50 0 
 ====================
 

@@ -95,16 +95,16 @@ std::vector<int> Graph::FindPathBfs(int startVertexKey, int endVertexKey)
     vector<int> answer;
     Queue<int> q;
     bool *visit = new bool[200];
-    fill(visit, visit + 200, false);
-    visit[startVertexKey] = true;
+    fill(visit, visit + 200, unvisited);
+    visit[startVertexKey] = visited;
     answer.push_back(startVertexKey);
     q.push(startVertexKey);
     while (!visit[endVertexKey] == visited)
     {//repeat endVertexKey
-        int x = q.getfront();
+        int front = q.getfront();
         q.pop();
-        Edge* temp = FindVertex(x)->GetHeadOfEdge();
-        for (int i = 0; i < FindVertex(x)->Size(); i++)
+        Edge* temp = FindVertex(front)->GetHeadOfEdge();
+        for (int i = 0; i < FindVertex(front)->Size(); i++)
         {
             if (!visit[temp->GetKey()])
             {
@@ -207,31 +207,41 @@ std::vector<int> Graph::FindShortestPathBellmanFord(int startVertexKey, int endV
     distance[startVertexKey] = 0;
     vector<int> path(this->Size(), -1);
 
-    auto moveV = this->FindVertex(startVertexKey);
-    Edge* moveE = moveV->GetHeadOfEdge();
-    for (int i = 1; i < this->Size() - 1; i++)
+    Vertex* moveV;
+    Edge* moveE;
+    for (int i = 0; i < Size(); i++)
     {
-        moveE = moveV->GetHeadOfEdge();
-        while (moveE)
+        for (int j = 0; j < Size(); j++)
         {
-            if (distance[moveV->GetKey()] != IN_FINITY && distance[moveE->GetKey()] > distance[moveV->GetKey()] + moveE->GetWeight())
-            {//change distance
-                distance[moveE->GetKey()] = distance[moveV->GetKey()] + moveE->GetWeight();
-                path[moveE->GetKey()] = moveV->GetKey();//change path
+            moveV = FindVertex(j);
+            moveE = moveV->GetHeadOfEdge();
+            while (moveE)
+            {
+                if (distance[moveV->GetKey()] != IN_FINITY && distance[moveE->GetKey()] > distance[moveV->GetKey()] + moveE->GetWeight())
+                {//change distance
+                    distance[moveE->GetKey()] = distance[moveV->GetKey()] + moveE->GetWeight();
+                    path[moveE->GetKey()] = moveV->GetKey();//change path
+                }
+                moveE = moveE->GetNext();
             }
-            moveE = moveE->GetNext();
         }
-        moveV = moveV->GetNext();
     }
-    moveE = moveV->GetHeadOfEdge();
-    while (moveE)
+    for (int i = 0; i < Size(); i++)
     {
-        if (distance[moveV->GetKey()] != IN_FINITY && distance[moveE->GetKey()] > distance[moveV->GetKey()] + moveE->GetWeight())
-        {//NegativeCycleDetected
-            distance.resize(0);
-            return distance;
+        for (int j = 0; j < Size(); j++)
+        {
+            moveV = FindVertex(j);
+            moveE = moveV->GetHeadOfEdge();
+            while (moveE)
+            {
+                if (distance[moveV->GetKey()] != IN_FINITY && distance[moveE->GetKey()] > distance[moveV->GetKey()] + moveE->GetWeight())
+                {//Negative cycle exists
+                    distance.resize(0);
+                    return distance;
+                }
+                moveE = moveE->GetNext();
+            }
         }
-        moveE = moveE->GetNext();
     }
     vector<int> temp;
     int tempkey = endVertexKey;
@@ -277,6 +287,14 @@ std::vector<vector<int>> Graph::FindShortestPathFloyd()
             {
                 answer[i][j] = min(answer[i][j], answer[i][k] + answer[k][j]);
             }
+        }
+    }
+    for (int i = 0; i < Size(); i++)
+    {
+        if (answer[i][i] < 0)
+        {//Negative cycle exists
+            answer.resize(0);
+            return answer;
         }
     }
     return answer;

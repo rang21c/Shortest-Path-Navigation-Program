@@ -1,7 +1,7 @@
 6
 Denny's Bread / 0 60 130 0 0 10
 Chodenny's Car shop / 0 0 50 60 0 50
-Granddey's Go Kicking / 20 0 0 70 40 70
+Granddey's Go kicking / 20 0 0 70 40 70
 Labuajiea's Yoga class / 0 60 0 0 30 50
 Grandy's Kicking Class / 0 0 50 20 0 90
 Jeawon's Computer Academy / 50 60 80 40 50 0

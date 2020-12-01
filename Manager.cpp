@@ -213,6 +213,11 @@ void Manager::Run(const char* filepath)//filepath is command.txt
                 PrintErrorName(tmp, "GraphNotExist");
                 PrintError(GraphNotExist);
             }
+            else if (code == 204)
+            {
+                PrintErrorName(tmp, "NegativeCycleDetected");
+                PrintError(NegativeCycleDetected);
+            }
             else
             {
                 PrintError(Success);
@@ -319,21 +324,21 @@ Result Manager::Load(const char* filepath)
     {
         getline(map, temp);//read line
         if (temp == "") break;
-        string StoreName = strtok((char*)temp.c_str(), " ");
-        //m_graph.AddVertex(VertexCount);
+        string StoreName = strtok((char*)temp.c_str(), " ");//person name
         while (1)
         {
             string name1 = strtok(NULL, " ");
-            if (name1 == "" || strcmp((char*)name1.c_str(),"/") == 0) break;
-            StoreName = StoreName + " " + name1;
+            if (name1 == "" || strcmp((char*)name1.c_str(),"/") == 0) 
+                break;
+            StoreName = StoreName + " " + name1;//Make full name
         }
-        m_graph.AddVertex(VertexCount, (char*)StoreName.c_str());
+        m_graph.AddVertex(VertexCount, (char*)StoreName.c_str());//add Vertex
         for (int i = 0; i < m_graph.Size(); i++)
-        {
-            char* weight = strtok(NULL, " ");
+        {//add Edge loop
+            char* weight = strtok(NULL, " ");//get weight
             if (weight == NULL) break;
             if(atoi(weight) != 0)
-                m_graph.AddEdge(VertexCount, i, atoi(weight));
+                m_graph.AddEdge(VertexCount, i, atoi(weight));//add Edge
         }
         VertexCount++;
     }
@@ -388,11 +393,23 @@ Result Manager::Update()
                             if (RabinKarpCompare(people1, cut) == Success)
                             {//owner name same 10
                                 moveE = m_graph.ChangeEdge(moveV, moveE, ceil(double(moveE->GetWeight()) * 0.9));//10% drop in costs
-                                for (int i = 0; i <= v.size() - 10; i++)
+                                for (int i = 0; i < v.size(); i++)
                                 {
                                     if (RabinKarpCompare(tempstr, v[i]) == Success)
                                     {//store name same
-                                        moveE = m_graph.ChangeEdge(moveV, moveE, ceil(double(moveE->GetWeight()) * 0.8));//10% drop in costs
+                                        moveE = m_graph.ChangeEdge(moveV, moveE, ceil(double(moveE->GetWeight()) * 0.8));//20% drop in costs
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+                            else if(RabinKarpCompare(people1, cut) != Success && i == people2.size() - 10)
+                            {//owner name not same 10
+                                for (int i = 0; i < v.size(); i++)
+                                {
+                                    if (RabinKarpCompare(tempstr, v[i]) == Success)
+                                    {//store name same
+                                        moveE = m_graph.ChangeEdge(moveV, moveE, ceil(double(moveE->GetWeight()) * 0.8));//20% drop in costs
                                         break;
                                     }
                                 }
@@ -404,6 +421,26 @@ Result Manager::Update()
                     else if (RabinKarpCompare(people1, cut) == Success && (people1.size() < 10 || people2.size() < 10))
                     {//owner name same 5 && name size lower than 10
                         moveE = m_graph.ChangeEdge(moveV, moveE, ceil(double(moveE->GetWeight()) * 0.9));//10% drop in costs
+                        for (int i = 0; i < v.size(); i++)
+                        {
+                            if (RabinKarpCompare(tempstr, v[i]) == Success)
+                            {//store name same
+                                moveE = m_graph.ChangeEdge(moveV, moveE, ceil(double(moveE->GetWeight()) * 0.8));//20% drop in costs
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    else
+                    {
+                        for (int i = 0; i < v.size(); i++)
+                        {
+                            if (RabinKarpCompare(tempstr, v[i]) == Success)
+                            {//store name same
+                                moveE = m_graph.ChangeEdge(moveV, moveE, ceil(double(moveE->GetWeight()) * 0.8));//20% drop in costs
+                                break;
+                            }
+                        }
                         break;
                     }
                 }
@@ -435,7 +472,7 @@ Result Manager::FindPathBfs(int startVertexKey, int endVertexKey)
         return InvalidVertexKey;//Vertex entered as a factor is not in the island's distance information data
     if (m_graph.GetHead() == NULL)
         return GraphNotExist;//Island distance information data does not exist
-    std::chrono::system_clock::time_point StartTime = std::chrono::system_clock::now();
+    std::chrono::system_clock::time_point StartTime = std::chrono::system_clock::now();//chrono Library
     vector<int> v = m_graph.FindPathBfs(startVertexKey, endVertexKey);//BFS
     vector<int> sorted = v;//sorted path
     string course;
@@ -461,8 +498,8 @@ Result Manager::FindPathBfs(int startVertexKey, int endVertexKey)
         HeapSort(sorted);
     else if (sel == 5)
         BubbleSort(sorted);
-    std::chrono::system_clock::time_point EndTime = std::chrono::system_clock::now();
-    std::chrono::nanoseconds nano = EndTime - StartTime;
+    std::chrono::system_clock::time_point EndTime = std::chrono::system_clock::now();//chrono Library
+    std::chrono::nanoseconds nano = EndTime - StartTime;//chrono Library
     for (int i = 0; i < sorted.size(); i++)
     {
         fout << sorted[i] << " ";
@@ -486,13 +523,13 @@ Result Manager::FindPathBfs(int startVertexKey, int endVertexKey)
     }
     fout << endl << "path length: " << length << endl;
     cout << endl << "path length: " << length << endl;
-    //rabincarp
+    //rabincarp Compression
     course = Compression(course);
     fout << "Course : " << course << endl;
     cout << "Course : " << course << endl;
     fout << "====================" << endl << endl;
     cout << "====================" << endl << endl;
-    cout << "BFS Time taken (nano seconds) : " << nano.count() << " nanoseconds" << endl << endl;
+    cout << "BFS Time taken (nano seconds) : " << nano.count() << " nanoseconds" << endl << endl;//chrono Library
     return Success;
 }
 /// <summary>
@@ -557,7 +594,7 @@ Result Manager::FindShortestPathDijkstraUsingSet(int startVertexKey, int endVert
     }
     fout << endl << "path length: " << length << endl;
     cout << endl << "path length: " << length << endl;
-    //rabincarp
+    //rabincarp Compression
     course = Compression(course);
     fout << "Course : " << course << endl;
     cout << "Course : " << course << endl;
@@ -628,7 +665,7 @@ Result Manager::FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int end
     }
     fout << endl << "path length: " << length << endl;
     cout << endl << "path length: " << length << endl;
-    //rabincarp
+    //rabincarp Compression
     course = Compression(course);
     fout << "Course : " << course << endl;
     cout << "Course : " << course << endl;
@@ -699,7 +736,7 @@ Result Manager::FindShortestPathBellmanFord(int startVertexKey, int endVertexKey
     }
     fout << endl << "path length: " << length << endl;
     cout << endl << "path length: " << length << endl;
-    //rabincarp
+    //rabincarp Compression
     course = Compression(course);
     fout << "Course : " << course << endl;
     cout << "Course : " << course << endl;
@@ -714,6 +751,8 @@ Result Manager::FindShortestPathFloyd()
     if (m_graph.GetHead() == NULL)
         return GraphNotExist;//Island distance information data does not exist
     vector<vector<int>> v = m_graph.FindShortestPathFloyd();
+    if (v.size() == 0)
+        return NegativeCycleDetected;//Negative cycle exists in the island's distance information data.
     fout << "======FLOYD======" << endl;
     cout << "======FLOYD======" << endl;
     for (int i = 0; i < v[0].size(); i++)
@@ -786,8 +825,8 @@ void Manager::QuickSort(vector<int>& v, int left, int right)
     int pivot = v[left];
     while (i <= j)
     {
-        while (v[i] <= pivot && i<j) i++;
-        while (v[j] > pivot && i<=j) j--;
+        while (v[i] <= pivot && i < j) i++;
+        while (v[j] > pivot && i <= j) j--;
         if (i < j)
         {
             swap(v[i], v[j]);
@@ -796,8 +835,8 @@ void Manager::QuickSort(vector<int>& v, int left, int right)
             break;
     }
     swap(v[left], v[j]);
-    if (left + 1 < j) QuickSort(v, left, j - 1);
-    if (i < right) QuickSort(v, i, right);
+    if (left + 1 < j) QuickSort(v, left, j - 1);//recursive
+    if (i < right) QuickSort(v, i, right);//recursive
 }
 
 void Manager::InsertSort(vector<int>& v)
@@ -832,9 +871,9 @@ void Manager::MergeSort(vector<int>& v, int left, int right)
     while (i <= mid && j <= right)
     {
         if (v[i] <= v[j])
-            temp[k++] = v[i++];
+            temp[k++] = v[i++];//pointer ++
         else
-            temp[k++] = v[j++];
+            temp[k++] = v[j++];//pointer ++
     }
     if (i > mid)
         for (int l = j; l <= right; l++)
@@ -850,17 +889,17 @@ void Manager::HeapSort(vector<int>& v)
 {
     MinHeap<int, int> heap;
     for (int i = 0; i < v.size(); i++)
-        heap.Push(v[i], 0);
+        heap.Push(v[i], 0);//push
     for (int i = 0; i < v.size(); i++)
     {
-        v[i] = heap.Top().first;
+        v[i] = heap.Top().first;//get heap Top
         heap.Pop();
     }
 }
 
 void Manager::BubbleSort(vector<int>& v)
 {
-    for (int i = 0; i < v.size()-1; i++)
+    for (int i = 0; i < v.size() - 1; i++)
     {
         for (int j = 0; j < v.size() - 1 - i; i++)
         {
@@ -879,6 +918,7 @@ string Manager::Compression(string s)
     string Class = "";
     string Academy = "";
     int count = 0;
+    int same_count = 0;
     int shop_count = 0;
     int class_count = 0;
     int academy_count = 0;
@@ -891,8 +931,8 @@ string Manager::Compression(string s)
                 str1 = s.substr(j, i);
                 str2 = s.substr(j + i);
                 if (RabinKarpCompare(str2, str1) == Success && str1.size() > 1)
-                {
-                    for (int k = 0; k < s.size() - i; k++)
+                {          
+                    for (int k = 0; k <= s.size() - i; k++)
                     {//RabinKarp Official Compression Law No. 2
                         temp = s.substr(k, i);
                         if (RabinKarpCompare(str1, temp) == Success)
@@ -904,47 +944,47 @@ string Manager::Compression(string s)
                         if (count > 1)
                         {
                             s.erase(k, i);
-                            s.insert(k, " ");
+                            //s.insert(k, " ");
                             count = 1;
                         }
                     }
-                    for (int k = 0; k < s.size() - i; k++)
+                    for (int k = 0; k <= s.size() - 4; k++)
                     {//Shop check
                         Shop = s.substr(k, 4);
                         if (RabinKarpCompare(Shop, "Shop") == Success)
                         {
                             shop_count++;
                         }
-                        if (shop_count > 1)
+                        if (RabinKarpCompare(Shop, "Shop") == Success && shop_count > 1)
                         {
-                            s.erase(k, 4);
-                            s.insert(k, " ");
+                            s.erase(k, 5);
+                            //s.insert(k, " ");
                         }
                     }
-                    for (int k = 0; k < s.size() - i; k++)
+                    for (int k = 0; k <= s.size() - 5; k++)
                     {//Shop check
                         Class = s.substr(k, 5);
                         if (RabinKarpCompare(Class, "Class") == Success)
                         {
                             class_count++;
                         }
-                        if (class_count > 1)
+                        if (RabinKarpCompare(Class, "Class") == Success && class_count > 1)
                         {
-                            s.erase(k, 5);
-                            s.insert(k, " ");
+                            s.erase(k, 6);
+                            //s.insert(k, " ");
                         }
                     }
-                    for (int k = 0; k < s.size() - i; k++)
+                    for (int k = 0; k <= s.size() - 7; k++)
                     {//Shop check
                         Academy = s.substr(k, 7);
                         if (RabinKarpCompare(Academy, "Academy") == Success)
                         {
                             academy_count++;
                         }
-                        if (academy_count > 1)
+                        if (RabinKarpCompare(Academy, "Academy") == Success && academy_count > 1)
                         {
-                            s.erase(k, 7);
-                            s.insert(k, " ");
+                            s.erase(k, 8);
+                            //s.insert(k, " ");
                         }
                     }
                     return s;
