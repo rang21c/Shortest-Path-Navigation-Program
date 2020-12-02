@@ -122,26 +122,24 @@ std::vector<int> Graph::FindShortestPathDijkstraUsingSet(int startVertexKey, int
 {
     vector<int> answer;
     vector<int> distance(this->Size(), IN_FINITY);//Initialize distance 
-    vector<int> path(this->Size(), -1);//Initialize path -1
     distance[startVertexKey] = 0;
-    set<pair<int, int>> kw;//key, weight
-    kw.insert(make_pair(startVertexKey, 0));
-    answer.push_back(startVertexKey);
+    vector<int> path(this->Size(), -1);//Initialize path -1
+    set<pair<int, int>> wk;//weight, key 
+    wk.insert(make_pair(0, startVertexKey));
 
-    while (!kw.empty())
+    while (!wk.empty())
     {
-        pair<int, int> temp = *kw.begin();//make pair
-        kw.erase(temp);
-        Vertex* cur = this->FindVertex(temp.first);
+        pair<int, int> temp = *wk.begin();//make pair
+        wk.erase(temp);
+        Vertex* cur = this->FindVertex(temp.second);
         Edge* moveE = cur->GetHeadOfEdge();
         for (int i = 0; i < cur->Size(); i++)
         {
-            if (distance[moveE->GetKey()] > distance[temp.first] + moveE->GetWeight())
-            {//find min
-                kw.erase(make_pair(moveE->GetKey(), distance[moveE->GetKey()]));//erase key, weight
-                distance[moveE->GetKey()] = distance[temp.first] + moveE->GetWeight();//distance change
-                kw.insert(make_pair(moveE->GetKey(), distance[moveE->GetKey()]));//insert key, weight
-                path[moveE->GetKey()] = temp.first;//path remember
+            if (distance[moveE->GetKey()] > distance[temp.second] + moveE->GetWeight())
+            {//Renewal
+                distance[moveE->GetKey()] = distance[temp.second] + moveE->GetWeight();//distance change
+                wk.insert(make_pair(distance[moveE->GetKey()], moveE->GetKey()));//insert key, weight
+                path[moveE->GetKey()] = temp.second;//path remember
             }
             moveE = moveE->GetNext();
         }
@@ -178,7 +176,7 @@ std::vector<int> Graph::FindShortestPathDijkstraUsingMinHeap(int startVertexKey,
         for (int i = 0; i < cur->Size(); i++)
         {
             if (distance[moveE->GetKey()] > distance[temp.second] + moveE->GetWeight())
-            {
+            {//Renewal
                 distance[moveE->GetKey()] = distance[temp.second] + moveE->GetWeight();
                 heap.Push(distance[moveE->GetKey()], moveE->GetKey());
                 path[moveE->GetKey()] = temp.second;//path remember
@@ -203,9 +201,9 @@ std::vector<int> Graph::FindShortestPathDijkstraUsingMinHeap(int startVertexKey,
 std::vector<int> Graph::FindShortestPathBellmanFord(int startVertexKey, int endVertexKey)
 {
     vector<int> answer;
-    vector<int> distance(this->Size(), IN_FINITY);
+    vector<int> distance(this->Size(), IN_FINITY);//Initialize distance
     distance[startVertexKey] = 0;
-    vector<int> path(this->Size(), -1);
+    vector<int> path(this->Size(), -1);//Initialize path -1
 
     Vertex* moveV;
     Edge* moveE;
@@ -218,31 +216,20 @@ std::vector<int> Graph::FindShortestPathBellmanFord(int startVertexKey, int endV
             while (moveE)
             {
                 if (distance[moveV->GetKey()] != IN_FINITY && distance[moveE->GetKey()] > distance[moveV->GetKey()] + moveE->GetWeight())
-                {//change distance
-                    distance[moveE->GetKey()] = distance[moveV->GetKey()] + moveE->GetWeight();
+                {//Renewal
+                    distance[moveE->GetKey()] = distance[moveV->GetKey()] + moveE->GetWeight();//change distance
                     path[moveE->GetKey()] = moveV->GetKey();//change path
+                    if (i == Size() - 1)
+                    {//Negative cycle exists
+                        distance.resize(0);
+                        return distance;
+                    }
                 }
                 moveE = moveE->GetNext();
             }
         }
     }
-    for (int i = 0; i < Size(); i++)
-    {
-        for (int j = 0; j < Size(); j++)
-        {
-            moveV = FindVertex(j);
-            moveE = moveV->GetHeadOfEdge();
-            while (moveE)
-            {
-                if (distance[moveV->GetKey()] != IN_FINITY && distance[moveE->GetKey()] > distance[moveV->GetKey()] + moveE->GetWeight())
-                {//Negative cycle exists
-                    distance.resize(0);
-                    return distance;
-                }
-                moveE = moveE->GetNext();
-            }
-        }
-    }
+
     vector<int> temp;
     int tempkey = endVertexKey;
     while (1)
@@ -284,7 +271,7 @@ std::vector<vector<int>> Graph::FindShortestPathFloyd()
         for (int i = 0; i < Size(); i++)
         {
             for (int j = 0; j < Size(); j++)
-            {
+            {//Renewal
                 answer[i][j] = min(answer[i][j], answer[i][k] + answer[k][j]);
             }
         }

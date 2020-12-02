@@ -21,8 +21,8 @@ public:
 
     void Push(TKey key, TValue value)
     {
-        m_vec.push_back(make_pair(key, value));
-        Heapify(m_vec.size()-1);
+        m_vec.push_back(make_pair(key, value));//push new key
+        Heapify(m_vec.size()-1);//Renewal
     }
 
     void Pop()
@@ -32,7 +32,7 @@ public:
 
     std::pair<TKey, TValue> Top()
     {
-        return m_vec[1];
+        return m_vec[1];//[1] is top
     }
 
     std::pair<TKey, TValue> Get(TValue target)
@@ -71,12 +71,10 @@ public:
         int curnode = i;
         while (curnode != 1 && m_vec[curnode / 2].first > temp.first)
         {
-            m_vec[curnode].first = m_vec[curnode / 2].first;
-            m_vec[curnode].second = m_vec[curnode / 2].second;
+            m_vec[curnode] = m_vec[curnode / 2];
             curnode = curnode / 2;//move parent
         }
-        m_vec[curnode].first = temp.first;
-        m_vec[curnode].second = temp.second;
+        m_vec[curnode] = temp;
     }
 
 private:
@@ -113,12 +111,10 @@ private:
             pair<TKey, TValue> temp = m_vec[index];
             while (curnode != 1 && m_vec[curnode / 2].first > temp.first)
             {
-                m_vec[curnode].first = m_vec[curnode / 2].first;
-                m_vec[curnode].second = m_vec[curnode / 2].second;
+                m_vec[curnode] = m_vec[curnode / 2];
                 curnode = curnode / 2;//move parent
             }
-            m_vec[curnode].first = temp.first;
-            m_vec[curnode].second = temp.second;
+            m_vec[curnode] = temp;
         }
     }
 };

@@ -1,7 +1,7 @@
 ﻿  Graph.cpp
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\MinHeap.h(97,26): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\MinHeap.h(88): message : 클래스 템플릿 멤버 함수 'void MinHeap<int,int>::Heapify(int)'을(를) 컴파일하는 중입니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\MinHeap.h(95,26): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\MinHeap.h(86): message : 클래스 템플릿 멤버 함수 'void MinHeap<int,int>::Heapify(int)'을(를) 컴파일하는 중입니다.
 C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\MinHeap.h(30): message : 컴파일되는 함수 템플릿 인스턴스화 'void MinHeap<int,int>::Heapify(int)'에 대한 참조를 확인하세요.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Graph.cpp(169): message : 컴파일되는 클래스 템플릿 인스턴스화 'MinHeap<int,int>'에 대한 참조를 확인하세요.
-C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\MinHeap.h(99,27): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\Graph.cpp(167): message : 컴파일되는 클래스 템플릿 인스턴스화 'MinHeap<int,int>'에 대한 참조를 확인하세요.
+C:\Users\류화랑\source\repos\2017202082_DS_Project_3\2017202082_DS_Project_3\MinHeap.h(97,27): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
   2017202082_DS_Project_3.vcxproj -> C:\Users\류화랑\source\repos\2017202082_DS_Project_3\Debug\2017202082_DS_Project_3.exe

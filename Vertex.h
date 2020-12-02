@@ -53,7 +53,7 @@ public:
     {
         Edge* NewEdge = new Edge(edgeKey, weight);
         if (this->GetHeadOfEdge() == NULL)
-        {
+        {//first add
             this->m_pEHead = NewEdge;
         }
         else

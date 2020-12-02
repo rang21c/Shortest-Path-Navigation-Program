@@ -50,9 +50,9 @@ Error code: 0
 
 ======BFS======
 shortest path: 0 1 2 5 3 
-sorted path: 0 1 2 3 5 
+sorted nodes: 0 1 2 3 5 
 path length: 220
-Course : Denny's *Bread ChoCar shop Granddey's Go kicking Jeawon's Computer Academy Labuajiea's Yoga class 
+Course : Denny's *Bread ChoCar shop Granddey's Go kicking Labuajiea's Yoga class Jeawon's Computer Academy 
 ====================
 
 =================
@@ -60,10 +60,10 @@ Error code: 0
 =================
 
 ======DIJKSTRA======
-shortest path: 0 5 3 
-sorted path: 0 3 5 
-path length: 50
-Course : Denny's *Bread JeawonComputer Academy LabuajieaYoga class 
+shortest path: 0 5 4 
+sorted nodes: 0 4 5 
+path length: 60
+Course : Denny's *Bread GrandKicking Class Jeawon's Computer Academy 
 ====================
 
 =================
@@ -71,10 +71,10 @@ Error code: 0
 =================
 
 ======DIJKSTRAMIN======
-shortest path: 0 5 3 
-sorted path: 0 3 5 
-path length: 50
-Course : Denny's *Bread JeawonComputer Academy LabuajieaYoga class 
+shortest path: 0 5 4 
+sorted nodes: 0 4 5 
+path length: 60
+Course : Denny's *Bread GrandKicking Class Jeawon's Computer Academy 
 ====================
 
 =================
@@ -83,9 +83,9 @@ Error code: 0
 
 ======BELLMANFORD======
 shortest path: 0 5 3 
-sorted path: 0 3 5 
+sorted nodes: 0 3 5 
 path length: 50
-Course : Denny's *Bread JeawonComputer Academy LabuajieaYoga class 
+Course : Denny's *Bread LabuajieaYoga class JeawonComputer Academy 
 ====================
 
 =================

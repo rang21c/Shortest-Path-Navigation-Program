@@ -42,15 +42,24 @@ void Manager::Run(const char* filepath)//filepath is command.txt
             continue;
         if (strcmp(tmp, "LOAD") == 0)
         {
-            if (Load("mapdata.txt") == LoadFileNotExist)
-            {//LoadFileNotExist if file is not exist.
-                PrintErrorName(tmp, "LoadFileNotExist");
-                PrintError(LoadFileNotExist);
+            char* file = strtok(NULL, " ");
+            if (file == NULL)
+            {
+                PrintErrorName(tmp, "VertexKeyNotExist");
+                PrintError(VertexKeyNotExist);
             }
             else
-            {//load is successful.
-                PrintErrorName(tmp, "Success");
-                PrintError(Success);
+            {
+                if (Load(file) == LoadFileNotExist)
+                {//LoadFileNotExist if file is not exist.
+                    PrintErrorName(tmp, "LoadFileNotExist");
+                    PrintError(LoadFileNotExist);
+                }
+                else
+                {//load is successful.
+                    PrintErrorName(tmp, "Success");
+                    PrintError(Success);
+                }
             }
         }
         else if (strcmp(tmp, "UPDATE") == 0)
@@ -58,7 +67,12 @@ void Manager::Run(const char* filepath)//filepath is command.txt
             if (Update() == FaildtoUpdatePath)
             {
                 PrintErrorName(tmp, "FaildtoUpdatePath");
-                PrintError(FaildtoUpdatePath);
+                fout << "=================" << endl;
+                fout << "Error code: 005" << endl;
+                fout << "=================" << endl << endl;
+                cout << "=================" << endl;
+                cout << "Error code: 005" << endl;
+                cout << "=================" << endl << endl;
             }
             else
             {//UPDATE is successful.
@@ -361,7 +375,6 @@ Result Manager::Update()
             strcpy(temp1, moveV->GetName());
             string people1 = strtok(temp1, "'");
             char* trash1 = strtok(NULL, " ");
-            //char* shopname1 = strtok(NULL, " ");
             while (1)
             {
                 char* shopnametemp = strtok(NULL, " ");
@@ -468,10 +481,10 @@ Result Manager::Print()
 /// </summary>
 Result Manager::FindPathBfs(int startVertexKey, int endVertexKey)
 {
-    if (m_graph.FindVertex(startVertexKey) == NULL || m_graph.FindVertex(endVertexKey) == NULL)
-        return InvalidVertexKey;//Vertex entered as a factor is not in the island's distance information data
     if (m_graph.GetHead() == NULL)
         return GraphNotExist;//Island distance information data does not exist
+    if (m_graph.FindVertex(startVertexKey) == NULL || m_graph.FindVertex(endVertexKey) == NULL)
+        return InvalidVertexKey;//Vertex entered as a factor is not in the island's distance information data
     std::chrono::system_clock::time_point StartTime = std::chrono::system_clock::now();//chrono Library
     vector<int> v = m_graph.FindPathBfs(startVertexKey, endVertexKey);//BFS
     vector<int> sorted = v;//sorted path
@@ -485,8 +498,8 @@ Result Manager::FindPathBfs(int startVertexKey, int endVertexKey)
         fout << v[i] << " ";
         cout << v[i] << " ";
     }
-    fout << endl << "sorted path: ";
-    cout << endl << "sorted path: ";
+    fout << endl << "sorted nodes: ";
+    cout << endl << "sorted nodes: ";
     //SORT select
     if (sel == 1)
         QuickSort(sorted, 0, sorted.size() - 1);
@@ -507,8 +520,6 @@ Result Manager::FindPathBfs(int startVertexKey, int endVertexKey)
     }
     int length = 0;
     auto vertex = m_graph.FindVertex(v[0]);
-    course += vertex->GetName();//course save
-    course += ' ';
     for (int i = 1; i < v.size(); i++)
     {
         auto edge = vertex->GetHeadOfEdge();
@@ -516,10 +527,14 @@ Result Manager::FindPathBfs(int startVertexKey, int endVertexKey)
         {
             edge = edge->GetNext();
         }
-        length += edge->GetWeight();
-        course += m_graph.FindVertex(edge->GetKey())->GetName();//course save
-        course += ' ';
+        length += edge->GetWeight();//length +
         vertex = m_graph.FindVertex(edge->GetKey());
+    }
+    for (int i = 0; i < sorted.size(); i++)
+    {
+        auto vertex = m_graph.FindVertex(sorted[i]);
+        course += vertex->GetName();//course save
+        course += ' ';
     }
     fout << endl << "path length: " << length << endl;
     cout << endl << "path length: " << length << endl;
@@ -537,10 +552,10 @@ Result Manager::FindPathBfs(int startVertexKey, int endVertexKey)
 /// </summary>
 Result Manager::FindShortestPathDijkstraUsingSet(int startVertexKey, int endVertexKey)
 {
-    if (m_graph.FindVertex(startVertexKey) == NULL || m_graph.FindVertex(endVertexKey) == NULL)
-        return InvalidVertexKey;//Vertex entered as a factor is not in the island's distance information data
     if (m_graph.GetHead() == NULL)
         return GraphNotExist;//Island distance information data does not exist
+    if (m_graph.FindVertex(startVertexKey) == NULL || m_graph.FindVertex(endVertexKey) == NULL)
+        return InvalidVertexKey;//Vertex entered as a factor is not in the island's distance information data
     if (m_graph.IsNegativeEdge())
         return InvalidAlgorithm;//Negative Weight exists in the island's distance information data.
     std::chrono::system_clock::time_point StartTime = std::chrono::system_clock::now();
@@ -556,8 +571,8 @@ Result Manager::FindShortestPathDijkstraUsingSet(int startVertexKey, int endVert
         fout << v[i] << " ";
         cout << v[i] << " ";
     }
-    fout << endl << "sorted path: ";
-    cout << endl << "sorted path: ";
+    fout << endl << "sorted nodes: ";
+    cout << endl << "sorted nodes: ";
     //SORT select
     if (sel == 1)
         QuickSort(sorted, 0, sorted.size() - 1);
@@ -578,8 +593,6 @@ Result Manager::FindShortestPathDijkstraUsingSet(int startVertexKey, int endVert
     }
     int length = 0;
     auto vertex = m_graph.FindVertex(v[0]);
-    course += vertex->GetName();//course save
-    course += ' ';
     for (int i = 1; i < v.size(); i++)
     {
         auto edge = vertex->GetHeadOfEdge();
@@ -587,10 +600,14 @@ Result Manager::FindShortestPathDijkstraUsingSet(int startVertexKey, int endVert
         {
             edge = edge->GetNext();
         }
-        length += edge->GetWeight();
-        course += m_graph.FindVertex(edge->GetKey())->GetName();//course save
-        course += ' ';
+        length += edge->GetWeight();//length +
         vertex = m_graph.FindVertex(edge->GetKey());
+    }
+    for (int i = 0; i < sorted.size(); i++)
+    {
+        auto vertex = m_graph.FindVertex(sorted[i]);
+        course += vertex->GetName();//course save
+        course += ' ';
     }
     fout << endl << "path length: " << length << endl;
     cout << endl << "path length: " << length << endl;
@@ -608,10 +625,10 @@ Result Manager::FindShortestPathDijkstraUsingSet(int startVertexKey, int endVert
 /// </summary>
 Result Manager::FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int endVertexKey)
 {
-    if (m_graph.FindVertex(startVertexKey) == NULL || m_graph.FindVertex(endVertexKey) == NULL)
-        return InvalidVertexKey;//Vertex entered as a factor is not in the island's distance information data
     if (m_graph.GetHead() == NULL)
         return GraphNotExist;//Island distance information data does not exist
+    if (m_graph.FindVertex(startVertexKey) == NULL || m_graph.FindVertex(endVertexKey) == NULL)
+        return InvalidVertexKey;//Vertex entered as a factor is not in the island's distance information data
     if (m_graph.IsNegativeEdge())
         return InvalidAlgorithm;//Negative Weight exists in the island's distance information data.
     std::chrono::system_clock::time_point StartTime = std::chrono::system_clock::now();
@@ -627,8 +644,8 @@ Result Manager::FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int end
         fout << v[i] << " ";
         cout << v[i] << " ";
     }
-    fout << endl << "sorted path: ";
-    cout << endl << "sorted path: ";
+    fout << endl << "sorted nodes: ";
+    cout << endl << "sorted nodes: ";
     //SORT select
     if (sel == 1)
         QuickSort(sorted, 0, sorted.size() - 1);
@@ -649,8 +666,6 @@ Result Manager::FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int end
     }
     int length = 0;
     auto vertex = m_graph.FindVertex(v[0]);
-    course += vertex->GetName();//course save
-    course += ' ';
     for (int i = 1; i < v.size(); i++)
     {
         auto edge = vertex->GetHeadOfEdge();
@@ -658,10 +673,14 @@ Result Manager::FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int end
         {
             edge = edge->GetNext();
         }
-        length += edge->GetWeight();
-        course += m_graph.FindVertex(edge->GetKey())->GetName();//course save
-        course += ' ';
+        length += edge->GetWeight();//length +
         vertex = m_graph.FindVertex(edge->GetKey());
+    }
+    for (int i = 0; i < sorted.size(); i++)
+    {
+        auto vertex = m_graph.FindVertex(sorted[i]);
+        course += vertex->GetName();//course save
+        course += ' ';
     }
     fout << endl << "path length: " << length << endl;
     cout << endl << "path length: " << length << endl;
@@ -679,10 +698,10 @@ Result Manager::FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int end
 /// </summary>
 Result Manager::FindShortestPathBellmanFord(int startVertexKey, int endVertexKey)
 {
-    if (m_graph.FindVertex(startVertexKey) == NULL || m_graph.FindVertex(endVertexKey) == NULL)
-        return InvalidVertexKey;//Vertex entered as a factor is not in the island's distance information data
     if (m_graph.GetHead() == NULL)
         return GraphNotExist;//Island distance information data does not exist
+    if (m_graph.FindVertex(startVertexKey) == NULL || m_graph.FindVertex(endVertexKey) == NULL)
+        return InvalidVertexKey;//Vertex entered as a factor is not in the island's distance information data
     std::chrono::system_clock::time_point StartTime = std::chrono::system_clock::now();
     vector<int> v = m_graph.FindShortestPathBellmanFord(startVertexKey, endVertexKey);//BELLMANFORD
     if(v.size() == 0)
@@ -698,8 +717,8 @@ Result Manager::FindShortestPathBellmanFord(int startVertexKey, int endVertexKey
         fout << v[i] << " ";
         cout << v[i] << " ";
     }
-    fout << endl << "sorted path: ";
-    cout << endl << "sorted path: ";
+    fout << endl << "sorted nodes: ";
+    cout << endl << "sorted nodes: ";
     //SORT select
     if (sel == 1)
         QuickSort(sorted, 0, sorted.size() - 1);
@@ -720,8 +739,6 @@ Result Manager::FindShortestPathBellmanFord(int startVertexKey, int endVertexKey
     }
     int length = 0;
     auto vertex = m_graph.FindVertex(v[0]);
-    course += vertex->GetName();//course save
-    course += ' ';
     for (int i = 1; i < v.size(); i++)
     {
         auto edge = vertex->GetHeadOfEdge();
@@ -729,10 +746,14 @@ Result Manager::FindShortestPathBellmanFord(int startVertexKey, int endVertexKey
         {
             edge = edge->GetNext();
         }
-        length += edge->GetWeight();
-        course += m_graph.FindVertex(edge->GetKey())->GetName();//course save
-        course += ' ';
+        length += edge->GetWeight();//length +
         vertex = m_graph.FindVertex(edge->GetKey());
+    }
+    for (int i = 0; i < sorted.size(); i++)
+    {
+        auto vertex = m_graph.FindVertex(sorted[i]);
+        course += vertex->GetName();//course save
+        course += ' ';
     }
     fout << endl << "path length: " << length << endl;
     cout << endl << "path length: " << length << endl;
@@ -774,7 +795,9 @@ Result Manager::RabinKarpCompare(string longstr, string shortstr)
 {
     int Lsize = longstr.size();
     int Ssize = shortstr.size();
-    int LHash = 0, SHash = 0, pow = 1;
+    int LHash = 0;
+    int SHash = 0;
+    int pow = 1;
     bool check = false;
     for (int i = 0; i <= Lsize - Ssize; i++)
     {
@@ -789,7 +812,7 @@ Result Manager::RabinKarpCompare(string longstr, string shortstr)
                 LHash += longstr[Ssize - 1 - j] * pow;
                 SHash += shortstr[Ssize - 1 - j] * pow;
                 if (j < Ssize - 1)
-                    pow = pow * 2;//square number increment
+                    pow *= 2;//square number increment
             }
         }
         else//Remove the front one and add the back one
@@ -809,6 +832,8 @@ Result Manager::RabinKarpCompare(string longstr, string shortstr)
                     break;
                 }
             }
+            if (check == true)
+                return Success;
         }
     }
     if (check == true)
@@ -825,8 +850,8 @@ void Manager::QuickSort(vector<int>& v, int left, int right)
     int pivot = v[left];
     while (i <= j)
     {
-        while (v[i] <= pivot && i < j) i++;
-        while (v[j] > pivot && i <= j) j--;
+        while (v[i] <= pivot && i < j) i++;//pointer ++
+        while (v[j] > pivot && i <= j) j--;//potiter --
         if (i < j)
         {
             swap(v[i], v[j]);
@@ -904,7 +929,7 @@ void Manager::BubbleSort(vector<int>& v)
         for (int j = 0; j < v.size() - 1 - i; i++)
         {
             if (v[i] > v[i + 1])
-                swap(v[i], v[i + 1]);
+                swap(v[i], v[i + 1]);//swap
         }
     }
 }
@@ -918,7 +943,6 @@ string Manager::Compression(string s)
     string Class = "";
     string Academy = "";
     int count = 0;
-    int same_count = 0;
     int shop_count = 0;
     int class_count = 0;
     int academy_count = 0;
@@ -938,13 +962,12 @@ string Manager::Compression(string s)
                         if (RabinKarpCompare(str1, temp) == Success)
                         {
                             if (count == 0)
-                                s.insert(k+i, "*");
+                                s.insert(k+i, "*");//insert *
                             count++;
                         }
                         if (count > 1)
                         {
-                            s.erase(k, i);
-                            //s.insert(k, " ");
+                            s.erase(k, i);//erase same
                             count = 1;
                         }
                     }
@@ -957,12 +980,11 @@ string Manager::Compression(string s)
                         }
                         if (RabinKarpCompare(Shop, "Shop") == Success && shop_count > 1)
                         {
-                            s.erase(k, 5);
-                            //s.insert(k, " ");
+                            s.erase(k, 5);//erase same
                         }
                     }
                     for (int k = 0; k <= s.size() - 5; k++)
-                    {//Shop check
+                    {//Class check
                         Class = s.substr(k, 5);
                         if (RabinKarpCompare(Class, "Class") == Success)
                         {
@@ -970,12 +992,11 @@ string Manager::Compression(string s)
                         }
                         if (RabinKarpCompare(Class, "Class") == Success && class_count > 1)
                         {
-                            s.erase(k, 6);
-                            //s.insert(k, " ");
+                            s.erase(k, 6);//erase same
                         }
                     }
                     for (int k = 0; k <= s.size() - 7; k++)
-                    {//Shop check
+                    {//Academy check
                         Academy = s.substr(k, 7);
                         if (RabinKarpCompare(Academy, "Academy") == Success)
                         {
@@ -983,8 +1004,7 @@ string Manager::Compression(string s)
                         }
                         if (RabinKarpCompare(Academy, "Academy") == Success && academy_count > 1)
                         {
-                            s.erase(k, 8);
-                            //s.insert(k, " ");
+                            s.erase(k, 8);//erase same
                         }
                     }
                     return s;
