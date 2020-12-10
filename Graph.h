@@ -31,13 +31,13 @@ public:
 
     Edge* ChangeEdge(Vertex* v, Edge* origin, int ChangeWeight)
     {
-        Edge* newEdge = new Edge(origin->GetKey(), ChangeWeight);
-        if (origin == v->GetHeadOfEdge())
+        Edge* newEdge = new Edge(origin->GetKey(), ChangeWeight);//make new node
+        if (origin == v->GetHeadOfEdge())//origin node is head
         {
             v->SetHead(newEdge);
             if(origin->GetNext())
                 newEdge->SetNext(origin->GetNext());
-            delete origin;
+            delete origin;//delete origin node
             return newEdge;
         }
         else
@@ -48,7 +48,7 @@ public:
             pCur->SetNext(newEdge);
             if (origin->GetNext())
                 newEdge->SetNext(origin->GetNext());
-            delete origin;
+            delete origin;//delete origin node
             return newEdge;
         }
     }
@@ -60,10 +60,10 @@ public:
         while (pCur != NULL)
         {
             if (pCur->GetKey() == key)
-                return pCur;
+                return pCur;//find
             pCur = pCur->GetNext();
         }
-        return NULL;
+        return NULL;//not find
     }
     /// get the number of the vertics
     int Size() const { return m_vSize; }

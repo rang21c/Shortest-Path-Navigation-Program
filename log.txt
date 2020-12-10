@@ -41,7 +41,7 @@ Error code: 0
 =================
 
 ====== CONFIG LOG ======
-Sorted by : Merge Sorting
+Sorted by : Heap Sorting
 ====================
 
 =================
@@ -60,10 +60,10 @@ Error code: 0
 =================
 
 ======DIJKSTRA======
-shortest path: 0 5 4 
-sorted nodes: 0 4 5 
-path length: 60
-Course : Denny's *Bread GrandKicking Class Jeawon's Computer Academy 
+shortest path: 0 5 3 
+sorted nodes: 0 3 5 
+path length: 50
+Course : Denny's *Bread LabuajieaYoga class JeawonComputer Academy 
 ====================
 
 =================
@@ -71,10 +71,10 @@ Error code: 0
 =================
 
 ======DIJKSTRAMIN======
-shortest path: 0 5 4 
-sorted nodes: 0 4 5 
-path length: 60
-Course : Denny's *Bread GrandKicking Class Jeawon's Computer Academy 
+shortest path: 0 5 3 
+sorted nodes: 0 3 5 
+path length: 50
+Course : Denny's *Bread LabuajieaYoga class JeawonComputer Academy 
 ====================
 
 =================

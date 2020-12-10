@@ -54,14 +54,14 @@ public:
         Edge* NewEdge = new Edge(edgeKey, weight);
         if (this->GetHeadOfEdge() == NULL)
         {//first add
-            this->m_pEHead = NewEdge;
+            this->m_pEHead = NewEdge;//set head
         }
         else
         {
             Edge* pCur = this->m_pEHead;
             while (pCur->GetNext() != NULL)
                 pCur = pCur->GetNext();
-            pCur->SetNext(NewEdge);
+            pCur->SetNext(NewEdge);//set next
         }
     }
     // get the head pointer of the edge
@@ -76,7 +76,7 @@ public:
         {
             moveE = m_pEHead;
             m_pEHead = m_pEHead->GetNext();
-            delete moveE;
+            delete moveE;//delete Edge
         }
     }
 };

@@ -37,6 +37,7 @@ private:
     void MergeSort(vector<int>& v, int left, int right);
     void HeapSort(vector<int>& v);
     void BubbleSort(vector<int>& v);
+    void CountingSort(vector<int>& v);
     string Compression(string s);
 };
 

@@ -5,7 +5,7 @@
 #include <utility>
 #include <vector>
 using namespace std;
-
+#define IN_FINITY_minus -999999
 template<typename TKey, typename TValue>
 class MinHeap
 {
@@ -16,7 +16,7 @@ private:
 public:
     MinHeap() 
     {
-        m_vec.push_back(make_pair(-1, -1));//m_vec[0] not use
+        m_vec.push_back(make_pair(IN_FINITY_minus, IN_FINITY_minus));//m_vec[0] not use
     }
 
     void Push(TKey key, TValue value)
@@ -47,7 +47,7 @@ public:
 
     bool IsEmpty()
     {
-        if (m_vec.size() == 1)
+        if (m_vec.size() == 1)//because of m_vec[0] == (IN_FINITY_minus, IN_FINITY_minus)
             return true;
         else
             return false;
@@ -58,23 +58,7 @@ public:
     /// </summary>
     void DecKey(TValue target, TKey newKey)
     {
-        int i = 0;
-        for (i = 0; i < m_vec.size(); i++)
-        {
-            if (target == m_vec[i].second)
-            {
-                m_vec[i].first = newKey;
-                break;
-            }
-        }
-        pair<TKey, TValue> temp = m_vec[i];
-        int curnode = i;
-        while (curnode != 1 && m_vec[curnode / 2].first > temp.first)
-        {
-            m_vec[curnode] = m_vec[curnode / 2];
-            curnode = curnode / 2;//move parent
-        }
-        m_vec[curnode] = temp;
+        //This function not used.
     }
 
 private:
@@ -88,22 +72,21 @@ private:
         {
             if (IsEmpty())
                 return;
-
             pair<TKey, TValue> last = m_vec[m_vec.size()-1];
             int curnode = 1;//root
             int child = 2;//curnode child
             while (child <= m_vec.size() - 1)
-            {
+            {//search point
                 if (child < m_vec.size() - 1 && m_vec[child].first > m_vec[child + 1].first)
                     child++;
                 if (last.first <= m_vec[child].first)
                     break;
                 m_vec[curnode] = m_vec[child];
-                curnode = child;
-                child = child * 2;
+                curnode = child;//move down
+                child = child * 2;//move down
             }
             m_vec[curnode] = last;
-            m_vec.resize(m_vec.size() - 1);
+            m_vec.pop_back();
         }
         else//push
         {
@@ -111,7 +94,7 @@ private:
             pair<TKey, TValue> temp = m_vec[index];
             while (curnode != 1 && m_vec[curnode / 2].first > temp.first)
             {
-                m_vec[curnode] = m_vec[curnode / 2];
+                m_vec[curnode] = m_vec[curnode / 2];//drag down
                 curnode = curnode / 2;//move parent
             }
             m_vec[curnode] = temp;

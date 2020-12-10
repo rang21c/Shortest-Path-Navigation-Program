@@ -54,7 +54,7 @@ void Graph::Print(std::ofstream& fout)
                 cout << 0 << " ";
             }
             else
-            {
+            {//print weight
                 fout << moveE->GetWeight() << " ";
                 cout << moveE->GetWeight() << " ";
                 moveE = moveE->GetNext();//Edge move
@@ -81,7 +81,7 @@ bool Graph::IsNegativeEdge()
             while (moveE)
             {
                 if (moveE->GetWeight() < 0)
-                    return true;
+                    return true;//check negative
                 moveE = moveE->GetNext();//Edge move
             }
             moveV = moveV->GetNext();//Vertex move
@@ -106,7 +106,7 @@ std::vector<int> Graph::FindPathBfs(int startVertexKey, int endVertexKey)
         Edge* temp = FindVertex(front)->GetHeadOfEdge();
         for (int i = 0; i < FindVertex(front)->Size(); i++)
         {
-            if (!visit[temp->GetKey()])
+            if (!visit[temp->GetKey()])//only unvisit
             {
                 q.push(temp->GetKey());
                 visit[temp->GetKey()] = visited;//visit
@@ -271,7 +271,7 @@ std::vector<vector<int>> Graph::FindShortestPathFloyd()
         for (int i = 0; i < Size(); i++)
         {
             for (int j = 0; j < Size(); j++)
-            {//Renewal
+            {//Renewal - i->j = min(i->j, i->k->j)
                 answer[i][j] = min(answer[i][j], answer[i][k] + answer[k][j]);
             }
         }
